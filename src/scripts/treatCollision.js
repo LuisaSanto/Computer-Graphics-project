@@ -2,7 +2,7 @@ import { Vector3 } from 'three';
 
 const carCollision = (car) => {
 	car.state.collision.forEach((target) => {
-		target = window.scene.getObjectById(target);
+		target = window.game.scene.getObjectById(target);
 		if (
 			target.state.forward === car.state.forward &&
 			target.state.reverse === car.state.reverse &&
@@ -18,7 +18,7 @@ const carCollision = (car) => {
 
 const cheerioCollision = (reference) => {
 	reference.state.collision.forEach((targetId) => {
-		const target = window.scene.getObjectById(targetId);
+		const target = window.game.scene.getObjectById(targetId);
 		const referenceOldMovement = new Vector3();
 		let targetOldMovement = new Vector3();
 
@@ -69,7 +69,7 @@ const cheerioCollision = (reference) => {
 
 		//cheerio on cheerio, reduce speed
 		reference.state.speed = reference.state.speed*0.8;
-		
+
 		if(target.state.speed < 2){
 			target.state.speed = 2;
 		}
@@ -80,7 +80,7 @@ const cheerioCollision = (reference) => {
 };
 
 export default () => {
-	window.scene.traverse((reference) => {
+	window.game.scene.traverse((reference) => {
 		switch (reference.name) {
 			case 'cheerio':
 				cheerioCollision(reference);

@@ -1,9 +1,9 @@
-import { Group, TorusGeometry, MeshBasicMaterial, Mesh, Vector3, Box3 } from 'three';
+import { Group, TorusGeometry, MeshLambertMaterial, Mesh, Vector3, Box3 } from 'three';
 
 const addCheerio = (group, x, y, z) => {
 	const AABB = new Box3();
 	const geometry = new TorusGeometry(0.75, 0.3, 5, 10);
-	const material = new MeshBasicMaterial({color: 0xcccc00, wireframe: true});
+	const material = new MeshLambertMaterial({color: 0xcccc00,wireframe: true});
 	const cheerio = new Mesh(geometry, material);
 	const mov = new Vector3();
 	const position = new Vector3(x, y, z);
@@ -11,7 +11,6 @@ const addCheerio = (group, x, y, z) => {
 	cheerio.name = 'cheerio';
 	cheerio.position.copy(position);
 	cheerio.rotation.set(Math.PI/2,0,0);
-
 	cheerio.state = {
 		boundingBox: AABB,
 		speed: 0,
@@ -28,19 +27,18 @@ const addCheerio = (group, x, y, z) => {
 const createSemiSphere = (group, x, y, z, radius, startingAngle, stepAngle, zScale) => {
 	var newX=x;
 	var newZ=z+radius;
-	var theta = startingAngle;//Math.PI/2;
-	var final_theta = 2*Math.PI-startingAngle;//3*Math.PI/2;
-	if(final_theta<startingAngle){//if full turn
+	var theta = startingAngle;
+	var final_theta = 2*Math.PI-startingAngle;
+	if (final_theta<startingAngle) {// if full turn
 		final_theta = 4*Math.PI-startingAngle;
 		newZ+=(-2)*radius;
 	}
 
-	while(theta<=final_theta){
+	while (theta <= final_theta) {
 		addCheerio(group, newX, y, newZ);
-		theta+=stepAngle; //Math.PI/6
+		theta+=stepAngle;
 		newX=radius*Math.cos(theta)+x;
 		newZ=radius*Math.sin(theta)*zScale;
-
 	}
 }
 

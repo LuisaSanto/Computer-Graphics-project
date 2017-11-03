@@ -2,7 +2,7 @@ import { Matrix4, Vector3 } from 'three';
 
 /**
  * Update de car's Speed.
- * 
+ *
  * @param {THREE.Group} car The car object.
  * @param {int} delta The delta between the current and last updates.
  */
@@ -13,7 +13,7 @@ const updateSpeed = (car, delta) => {
     car.state.speed = 0;
     return;
   }
-  
+
   if (car.state.forward && car.state.acceleration <= 50) {
     car.state.acceleration += 10;
   } else if(car.state.reverse && car.state.acceleration >= -50) {
@@ -35,7 +35,7 @@ const updateSpeed = (car, delta) => {
   if (car.state.reverse) {
     car.state.mov = new Vector3(-1,0,0);
   }
-  
+
   // Maximize the speed.
   const speedDirection = car.state.speed / Math.abs(car.state.speed);
   if (Math.abs(car.state.speed) > 50) {
@@ -45,7 +45,7 @@ const updateSpeed = (car, delta) => {
 
 /**
  * Update the car's position due to its speed.
- * 
+ *
  * @param {THREE.Group} car The car object.
  * @param {int} delta The delta between the current and last updates.
  */
@@ -68,7 +68,7 @@ const updateSpeedPosition = (car, delta) => {
 
 /**
  * Update the car's position due to its rotation.
- * 
+ *
  * @param {THREE.Group} car The car object.
  * @param {int} delta The delta between the current and last updates.
  */
@@ -91,9 +91,9 @@ const updateRotationPosition = (car, delta) => {
 
 /**
  * Turn wheels on Y axis to match turning.
- * 
- * @param {array} wheels 
- * @param {int} direction 
+ *
+ * @param {array} wheels
+ * @param {int} direction
  */
 const turnWheels = (wheels, direction) => {
   wheels.forEach((wheel) => {
@@ -103,8 +103,8 @@ const turnWheels = (wheels, direction) => {
 
 /**
  * Turn wheels on X axis.
- * 
- * @param {THREE.Group} car 
+ *
+ * @param {THREE.Group} car
  * @param {double} delta
  */
 const rotateWheels = (car, delta) => {
@@ -121,14 +121,14 @@ const rotateWheels = (car, delta) => {
  * Update car related movements.
  */
 export default (delta) => {
-  const car = scene.getObjectByName('car');
-  
+  const car = window.game.scene.getObjectByName('car');
+
   // Update speed and position.
   if (car.state.forward || car.state.reverse || car.state.speed !== 0) {
       updateSpeed(car, delta);
       updateSpeedPosition(car, delta);
   }
-  
+
   // Update car orientation when either left or right keys are pressed.
   if (car.state.left || car.state.right) {
     updateRotationPosition(car, delta);
