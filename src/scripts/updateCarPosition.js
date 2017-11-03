@@ -83,7 +83,7 @@ const updateRotationPosition = (car, delta) => {
     (car.state.left && !car.state.turningLeft) ||
     (car.state.right && !car.state.turningRight)
   ) {
-    turnWheels(car.getObjectByName('front').children, car.state.speed < 0 ? -direction : direction);
+    turnWheels(car.getObjectByName('front').children, direction);
     car.state.turningLeft = car.state.left;
     car.state.turningRight = car.state.right;
   }
