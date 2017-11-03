@@ -100,6 +100,7 @@ const addBody = (x, y, z) => {
   body.add(front, back, createGlass());
   body.position.set(x, y, z);
   body.rotateY(-Math.PI/2);
+  body.name = 'car_body';
 
   return body;
 };
