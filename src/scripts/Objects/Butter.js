@@ -1,14 +1,26 @@
-import { Group, BoxGeometry, MeshBasicMaterial,  Mesh, Box3 } from 'three';
+import { Group, BoxGeometry, MeshLambertMaterial, MeshPhongMaterial, MeshBasicMaterial, Mesh, Box3 } from 'three';
 
 export default (number) => {
   const butters = new Group;
   butters.name = 'butters';
   const geometry = new BoxGeometry(5, 2, 2);
-  const material = new MeshBasicMaterial({
+
+  const lambertMaterial = new MeshLambertMaterial({
     color: 0xffff00,
     wireframe: window.game.state.wireframe,
   });
-  const butter = new Mesh(geometry, material);
+
+  const phongMaterial = new MeshPhongMaterial({
+    color: 0xffff00,
+    wireframe: window.game.state.wireframe,
+  });
+
+  const basicMaterial = new MeshBasicMaterial({
+    color: 0xffff00,
+    wireframe: window.game.state.wireframe,
+  });
+
+  const butter = new Mesh(geometry, phongMaterial);
   const safe_x = 120;
   const safe_z = 80;
   const AABB = new Box3();
@@ -22,6 +34,8 @@ export default (number) => {
     left: false,
   }
   butter.name = 'butter';
+  butter.castShadow = true;
+  butter.receiveShadow = true;
 
   for (let index = 0; index < number; index++) {
     const newButter = butter.clone();
@@ -34,6 +48,9 @@ export default (number) => {
     
         newButter.state = {
           boundingBox: new Box3().setFromObject(newButter),
+          phongMaterial: phongMaterial, 
+          lambertMaterial: lambertMaterial,
+          basicMaterial: basicMaterial,
         }
         
         butters.add(newButter);

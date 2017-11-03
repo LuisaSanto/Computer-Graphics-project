@@ -4,6 +4,7 @@ import Butter from './Objects/Butter';
 import Car from './Objects/Car';
 import Table from './Objects/Table';
 import Track from './Objects/Track';
+import Sun from './Objects/Sun'
 
 export default () => {
   const scene = new Scene();
@@ -16,7 +17,8 @@ export default () => {
     ),
     Track(0, 0, 0),
     Orange(3),
-    Butter(5)
+    Butter(5),
+    Sun(),
   );
 
   // Add boxes

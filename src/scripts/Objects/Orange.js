@@ -1,37 +1,80 @@
-import { Box3, BoxGeometry, ConeGeometry, Group, SphereGeometry, MeshBasicMaterial, Mesh, Vector3 } from 'three';
+import { Box3, BoxGeometry, ConeGeometry, Group, MeshBasicMaterial, SphereGeometry, MeshPhongMaterial, MeshLambertMaterial,  Mesh, Vector3 } from 'three';
 
 export default (number) => {
   const oranges = new Group();
   oranges.name = 'oranges';
 
+  const spherePhongMaterial = new MeshPhongMaterial({
+    color: 0xcc5300,
+    wireframe: window.game.state.wireframe,
+    });
+
+  const stickPhongMaterial = new MeshPhongMaterial({
+    color: 0x00ff00,
+    wireframe: window.game.state.wireframe,
+  });
+
+  const leafPhongMaterial = new MeshPhongMaterial({
+    color: 0x00ff00,
+    wireframe: window.game.state.wireframe,
+  });
+
+  const sphereLambertMaterial = new MeshLambertMaterial({
+    color: 0xcc5300,
+    wireframe: window.game.state.wireframe,
+    });
+
+  const stickLambertMaterial = new MeshLambertMaterial({
+    color: 0x00ff00,
+    wireframe: window.game.state.wireframe,
+  });
+
+  const leafLambertMaterial = new MeshLambertMaterial({
+    color: 0x00ff00,
+    wireframe: window.game.state.wireframe,
+  });
+
+  const sphereBasicMaterial = new MeshBasicMaterial({
+    color: 0xcc5300,
+    wireframe: window.game.state.wireframe,
+    });
+
+  const stickBasicMaterial = new MeshBasicMaterial({
+    color: 0x00ff00,
+    wireframe: window.game.state.wireframe,
+  });
+
+  const leafBasicMaterial = new MeshBasicMaterial({
+    color: 0x00ff00,
+    wireframe: window.game.state.wireframe,
+  });
+
+
+
   // Common characteristics.
   const orange = new Mesh(
     new SphereGeometry(2),
-    new MeshBasicMaterial({
-      color: 0xcc5300,
-      wireframe: window.game.state.wireframe,
-    })
+    sphereLambertMaterial
   );
   
   const stickAndLeaf = new Group();
   const stick = new Mesh(
     new ConeGeometry(0.1, 1, 5),
-    new MeshBasicMaterial({
-      color: 0x00ff00,
-      wireframe: window.game.state.wireframe,
-    })
+    stickPhongMaterial
   );
   const leaf = new Mesh(
     new BoxGeometry(1, .05, 1),
-    new MeshBasicMaterial({
-      color: 0x00ff00,
-      wireframe: window.game.state.wireframe,
-    })
+    leafPhongMaterial
   );
+
+  leaf.name = 'leaf';
+  stick.name = 'stick';
 
   stickAndLeaf.add(stick, leaf);
   leaf.position.set(0.5, 0, 0.5);
 
+  orange.castShadow = true;
+  orange.receiveShadow = true;
   orange.name = 'orange';
   orange.add(stickAndLeaf);
   stickAndLeaf.position.set(0, 2.5, 0);
@@ -60,6 +103,15 @@ export default (number) => {
       rotationVector: rotationVector,
       spawnDelay: 2 * Math.random(),
       hasFallen: false,
+      spherePhongMaterial: spherePhongMaterial,
+      stickPhongMaterial: stickPhongMaterial,
+      leafPhongMaterial: leafPhongMaterial,
+      sphereLambertMaterial: sphereLambertMaterial,
+      stickLambertMaterial: stickLambertMaterial,
+      leafLambertMaterial: leafLambertMaterial,
+      sphereBasicMaterial: sphereBasicMaterial,
+      stickBasicMaterial: stickBasicMaterial,
+      leafBasicMaterial: leafBasicMaterial,
     }
     
     oranges.add(newOrange);
