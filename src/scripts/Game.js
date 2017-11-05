@@ -76,12 +76,19 @@ class Game {
       acceleration: 0,
       speed: 0,
       dof: new Vector3(1, 0, 0),
-      collision: [],
       isStuck: false,
       isRotationg: false,
     });
     this.clock.stop();
     this.clock.start();
+
+    // Reset butters.
+    const butters = this.scene.getObjectByName('butters');
+    butters.children.forEach((butter) => {
+      butter.userData = Object.assign(butter.userData, {
+        collision: [],
+      });
+    });
 
     // Reposition cheerios.
     const cheerios = this.scene.getObjectByName('track');
