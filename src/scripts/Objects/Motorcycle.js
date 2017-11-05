@@ -15,35 +15,16 @@ import {
   LatheGeometry
 } from 'three';
 
-class Car extends Group {
-  constructor(position = new Vector3(), scale = new Vector3(1, 1, 1)) {
+class Motorcycle extends Group {
+  constructor() {
     super();
-    scale.multiply(new Vector3(.4, .4, .4));
-    this.name = 'car';
-    this.userData = {
-      acceleration: 0,
-      baseAcceleration: 20,
-      collision: [],
-      dof: new Vector3(1, 0, 0),
-      drag: 0.02, // As a percentage of the velocity.
-      initialPosition: position,
-      isStuck: false,
-      isRotationg: false,
-      rotationDir: 0,
-      maxAcceleration: 50,
-      maxSpeed: 40,
-      rotation: 3,
-      speed: 0,
-      turningLeft: false,
-      turningRight: false,
-      vuv: new Vector3(0, 1, 0),
-    };
     this.add(
       this.body(),
       this.wheels()
     );
-    this.scale.copy(scale);
-    this.position.copy(position);
+    this.name = 'mode';
+    this.rotateY(Math.PI);
+    this.scale.copy(new Vector3(.4, .4, .4));
   }
 
   body() {
@@ -68,7 +49,7 @@ class Car extends Group {
     };
 
     const geometry = new ExtrudeGeometry(shape, extrudeSettings);
-    const material = new MeshBasicMaterial({ color: 0xff0000, wireframe: false });
+    const material = new MeshBasicMaterial({ color: 0xff0000, wireframe: true });
     const body = new Mesh( geometry, material );
     body.position.set(0, 0, -1);
 
@@ -87,7 +68,7 @@ class Car extends Group {
     shape.lineTo(.5, 0);
 
     const geometry = new LatheGeometry(shape.extractPoints().shape);
-    const material = new MeshBasicMaterial({ color: 0x333333, wireframe: false });
+    const material = new MeshBasicMaterial({ color: 0x333333, wireframe: true });
     const wheel = new Mesh( geometry, material );
 
     wheel.rotateX(Math.PI/2);
@@ -107,4 +88,4 @@ class Car extends Group {
   }
 }
 
-export default Car;
+export default Motorcycle;

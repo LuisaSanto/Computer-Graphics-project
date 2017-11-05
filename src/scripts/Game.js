@@ -74,10 +74,11 @@ class Game {
     car.position.copy(car.userData.initialPosition);
     car.userData = Object.assign(car.userData, {
       acceleration: 0,
-      speed: 0,
-      dof: new Vector3(1, 0, 0),
+      dof: new Vector3(-1, 0, 0),
       isStuck: false,
       isRotationg: false,
+      speed: 0,
+      vuv: new Vector3(0, 1, 0),
     });
     this.clock.stop();
     this.clock.start();

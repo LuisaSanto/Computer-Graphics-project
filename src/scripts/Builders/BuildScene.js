@@ -2,7 +2,7 @@ import { AxisHelper, Vector3 } from 'three';
 
 import Oranges from './../Objects/Oranges';
 import Butters from './../Objects/Butters';
-import Car from './../Objects/Car';
+import Vehicle from './../Objects/Vehicle';
 import Table from './../Objects/Table';
 import Track from './../Objects/Track';
 import Candles from './../Objects/Candles';
@@ -24,7 +24,7 @@ class BuildScene {
         new Vector3(0, 5, 20),
         new Vector3(0, 5, -20)
       ]),
-      new Car(
+      new Vehicle(
         new Vector3(0, 3, 25), // Car initial position.
         new Vector3(1, 1, 1) // Car initial scale.
       )

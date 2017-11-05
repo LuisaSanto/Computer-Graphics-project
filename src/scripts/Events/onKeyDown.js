@@ -46,7 +46,7 @@ export default (e) => {
         }
       });
     case 77:
-      window.game.changeVehicle();
+      car.changeMode();
       break;
   }
 }
