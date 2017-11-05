@@ -2,13 +2,13 @@ import { Box3, Matrix4, Vector3 } from 'three';
 
 /**
  * Regenerate oranges that leave the table bounds.
- * 
- * @param {THREE.Object3D} orange 
+ *
+ * @param {THREE.Object3D} orange
  */
 const respawnOrange = (orange) => {
     // Reset rotation.
     orange.setRotationFromAxisAngle(orange.state.rotationVector, 0);
-    
+
     // Orange spawn limits.
     const safe_x = window.game.state.table.width;
     const safe_z = window.game.state.table.height;
@@ -20,7 +20,7 @@ const respawnOrange = (orange) => {
     );
     orange.scale.copy(new Vector3(1, 1, 1));
 
-    const baseSpeed = 5 * (1 + Math.floor(window.clock.getElapsedTime() / 30));
+    const baseSpeed = 5 * (1 + Math.floor(window.game.clock.getElapsedTime() / 30));
     const directionVector = new Vector3(0.5 - Math.random(), 0, 0.5 - Math.random()).normalize();
     const rotationVector = new Vector3(directionVector.z, 0, -directionVector.x);
 
@@ -36,8 +36,8 @@ const respawnOrange = (orange) => {
 
 /**
  * Move the orange on the table.
- * 
- * @param {THREE.Object3D} orange 
+ *
+ * @param {THREE.Object3D} orange
  */
 const moveOrange = (orange, delta) => {
     const horizontalLimit = window.game.state.table.width / 2 + orange.geometry.parameters.radius;
@@ -62,14 +62,14 @@ const moveOrange = (orange, delta) => {
     }
 
     const distance = orange.state.speed * delta;
-    
+
     orange.position.addScaledVector(orange.state.direction, distance);
     orange.rotateOnAxis(orange.state.rotationVector, distance / orange.geometry.parameters.radius);
     orange.state.boundingBox.setFromObject(orange);
 };
 
 export default (delta) => {
-    const oranges = scene.getObjectByName('oranges');
+    const oranges = window.game.scene.getObjectByName('oranges');
 
     oranges.children.forEach((orange) => {
         moveOrange(orange, delta);

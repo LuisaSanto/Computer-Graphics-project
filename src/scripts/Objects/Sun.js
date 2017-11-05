@@ -7,19 +7,10 @@ export default () => {
   const directionalLight = new DirectionalLight(0xdfebff);
   directionalLight.name = 'sun';
   directionalLight.intensity = true;
-  directionalLight.position.set(300, 400, 50);
-  directionalLight.target.position.set(40, 4, 40);
-  directionalLight.castShadow = true;
-  /*directionalLight.shadow.camera.near = 0;
-  directionalLight.shadow.camera.far = 1000;
-  directionalLight.shadow.camera.left = -1000;
-  directionalLight.shadow.camera.right = 1000;
-  directionalLight.shadow.camera.top = 1000;
-  directionalLight.shadow.camera.bottom = -1000;*/
+  directionalLight.position.set(50, 60, 50);
+  directionalLight.target.position.set(0, 4, 0);
 
-  const helper = new CameraHelper(directionalLight.shadow.camera);
-
-  group.add(directionalLight, helper)
+  group.add(directionalLight)
 
   return group;
 }

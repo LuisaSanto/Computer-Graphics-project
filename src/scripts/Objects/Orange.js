@@ -1,4 +1,13 @@
-import { Box3, BoxGeometry, ConeGeometry, Group, MeshBasicMaterial, SphereGeometry, MeshPhongMaterial, MeshLambertMaterial,  Mesh, Vector3 } from 'three';
+import { Box3, 
+  BoxGeometry, 
+  ConeGeometry, 
+  Group, 
+  MeshBasicMaterial, 
+  SphereGeometry, 
+  MeshPhongMaterial, 
+  MeshLambertMaterial,  
+  Mesh, 
+  Vector3 } from 'three';
 
 export default (number) => {
   const oranges = new Group();
@@ -36,17 +45,17 @@ export default (number) => {
 
   const sphereBasicMaterial = new MeshBasicMaterial({
     color: 0xcc5300,
-    wireframe: window.game.state.wireframe,
+    wireframe: true,
     });
 
   const stickBasicMaterial = new MeshBasicMaterial({
     color: 0x00ff00,
-    wireframe: window.game.state.wireframe,
+    wireframe:true,
   });
 
   const leafBasicMaterial = new MeshBasicMaterial({
     color: 0x00ff00,
-    wireframe: window.game.state.wireframe,
+    wireframe: true,
   });
 
 
@@ -54,7 +63,7 @@ export default (number) => {
   // Common characteristics.
   const orange = new Mesh(
     new SphereGeometry(2),
-    sphereLambertMaterial
+    spherePhongMaterial
   );
   
   const stickAndLeaf = new Group();
@@ -98,7 +107,7 @@ export default (number) => {
     
     newOrange.state = {
       boundingBox: new Box3().setFromObject(newOrange),
-      speed: 5 * (1 + Math.floor(window.clock.getElapsedTime() / 30)) + Math.random() * 3,
+      speed: 5 * (1 + Math.floor(window.game.clock.getElapsedTime() / 30)) + Math.random() * 3,
       direction: directionVector,
       rotationVector: rotationVector,
       spawnDelay: 2 * Math.random(),

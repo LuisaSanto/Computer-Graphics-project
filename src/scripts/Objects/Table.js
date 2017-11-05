@@ -1,10 +1,10 @@
-import { Group, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
+import { Group, BoxGeometry, MeshBasicMaterial, Mesh, MeshLambertMaterial} from 'three';
 
 const addTableTop = (group, width, height, x, y, z) => {
-  const geometry = new BoxGeometry(width, 2, height);
-  const material = new MeshBasicMaterial({
+  const geometry = new BoxGeometry(width, 2, height, 25, 2, 25);
+  const material = new MeshLambertMaterial({
     color: 0xa66829,
-    wireframe: window.game.state.wireframe,
+    wireframe: true
   });
   const top = new Mesh(geometry, material);
 

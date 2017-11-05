@@ -1,11 +1,12 @@
 export default (e) => {
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  const camera = window.game.state.currentCamera;
+
+  window.game.renderer.setSize(window.innerWidth, window.innerHeight);
 
   if (window.innerHeight === 0) {
     return;
   }
 
-  
   if (camera.type === 'OrthographicCamera') {
     const factor = (window.innerWidth * window.innerHeight * 12) / (1275 * 707);
 
@@ -16,6 +17,6 @@ export default (e) => {
   }
 
   camera.aspect = window.innerWidth / window.innerHeight;
-  
+
   camera.updateProjectionMatrix();
 }
