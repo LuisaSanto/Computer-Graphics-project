@@ -92,7 +92,6 @@ class Game {
       this.vehicles.motorcycle.position.copy(this.vehicles.car.position);
       this.scene.remove(this.vehicles.car);
       this.scene.add(this.vehicles.motorcycle);
-      console.log('yay');
       this.userData.vehicle = 'motorcycle';
     } else {
       this.vehicles.car.position.copy(this.vehicles.motorcycle.position);

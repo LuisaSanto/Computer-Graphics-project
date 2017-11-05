@@ -12,7 +12,6 @@ export default (delta) => {
       Movement.updateObjectAcceleration(car, delta);
       Movement.updateObjectSpeed(car, delta);
       Movement.updateObjectPosition(car, delta);
-      console.log(car);
   }
 
   // Update car orientation when either left or right keys are pressed.

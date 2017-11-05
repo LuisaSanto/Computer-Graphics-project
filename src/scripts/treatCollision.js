@@ -20,15 +20,10 @@ const cheerioCollision = (reference) => {
 	reference.userData.collision.forEach((targetId) => {
 		const target = window.game.scene.getObjectById(targetId);
 		const referenceOldMovement = new Vector3();
-		let targetOldMovement = new Vector3();
+    let targetOldMovement = new Vector3();
 
 		referenceOldMovement.copy(reference.userData.dof);
-
-		if (target.name === 'car') {
-			targetOldMovement = target.getWorldDirection();
-		} else {
-			targetOldMovement = target.userData.dof;
-		}
+    targetOldMovement = target.userData.dof;
 
 		const referenceOldVelocity = Math.abs(reference.userData.speed);
 		const collisionVector = new Vector3();
@@ -44,15 +39,18 @@ const cheerioCollision = (reference) => {
 		reference.userData.dof.y = 0;
     reference.userData.dof.normalize();
 		reference.userData.speed += Math.abs(target.userData.speed * collisionPartial);
+    // console.log(target.userData.speed);
+    // console.log(reference.userData.speed);
 
 		if (reference.userData.speed < 2) {
 			reference.userData.speed = 5;
 		}
 
 		if (target.name === 'car') {
-			reference.userData.speed = reference.userData.speed;
+			reference.userData.speed = reference.userData.speed * 0.9;
 			return;
-		}
+    }
+
 		// Reference to target velocity exchange.
 		collisionVector.copy(target.position);
 		collisionVector.sub(reference.position);
@@ -65,12 +63,12 @@ const cheerioCollision = (reference) => {
 		target.userData.speed += Math.abs(referenceOldVelocity * collisionPartial);
 
 		//cheerio on cheerio, reduce speed
-		reference.userData.speed = reference.userData.speed*0.8;
+		reference.userData.speed = reference.userData.speed * 0.8;
 
-		if(target.userData.speed < 2){
-			target.userData.speed = 2;
+		if (target.userData.speed < 2) {
+			target.userData.speed = 0;
 		}
-		target.userData.speed = target.userData.speed*0.8;
+		target.userData.speed = target.userData.speed * 0.8;
 	});
 
 	reference.userData.collision = [];

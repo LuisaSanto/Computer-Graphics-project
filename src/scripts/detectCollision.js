@@ -63,7 +63,7 @@ export default () => {
 	track.children.forEach((cheerio) =>{
 		if (checkCollisionBoxes(cheerio.userData.boundingBox, carBox)) {
 			//check for false positives, use radius ??
-			cheerio.userData.collision.push(car.id);
+			cheerio.userData.collision.push(car.id);console.log(cheerio);
 		}
 	});
 
@@ -75,7 +75,8 @@ export default () => {
 						return;
 					}
 					if(checkCollisionBoxes(referenceNode.userData.boundingBox,trackNode.userData.boundingBox)){
-						referenceNode.userData.collision.push(trackNode.id);
+            referenceNode.userData.collision.push(trackNode.id);
+            console.log(reference);
 					}
 				}
 			)

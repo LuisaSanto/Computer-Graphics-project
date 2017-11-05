@@ -5,9 +5,10 @@ export default (delta) => {
 	const track = window.game.scene.getObjectByName('track');
 
 	track.children.forEach((cheerio) => {
-		if (cheerio.userData.speed === 0) {
-			return;
+    if (cheerio.userData.speed === 0) {
+      return;
 		}
+    // console.log(cheerio);
 
 		if (cheerio.userData.speed > 50){
 			cheerio.userData.speed = 50;

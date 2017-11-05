@@ -30,20 +30,22 @@ class Movement {
   static updateObjectSpeed(obj, delta) {
     const acceleration = obj.userData.acceleration;
     const drag = obj.userData.drag;
-    const speed = obj.userData.speed;
+    let speed = obj.userData.speed;
     const direction = acceleration !== 0 ? acceleration / Math.abs(acceleration) : speed / Math.abs(speed);
 
     if (acceleration === 0 && Math.abs(speed) < 0.05) {
-      obj.userData.speed = 0;
+      speed = 0;
     } else {
-      obj.userData.speed += -speed * drag + acceleration * delta;
+      speed += -speed * drag + acceleration * delta;
     }
 
-    console.log(obj.userData.speed);
-
-    if (Math.abs(obj.userData.speed) > obj.userData.maxSpeed) {
-      obj.userData.speed = direction * obj.userData.maxSpeed;
+    if (Math.abs(speed) > obj.userData.maxSpeed) {
+      speed = direction * obj.userData.maxSpeed;
     }
+
+    obj.userData = Object.assign(obj.userData, {
+      speed: speed
+    });
   }
 
   /**
