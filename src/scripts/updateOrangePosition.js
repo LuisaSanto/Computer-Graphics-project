@@ -1,4 +1,5 @@
 import { Box3, Matrix4, Vector3 } from 'three';
+import Movement from './Movement';
 
 /**
  * Regenerate oranges that leave the table bounds.
@@ -7,7 +8,7 @@ import { Box3, Matrix4, Vector3 } from 'three';
  */
 const respawnOrange = (orange) => {
     // Reset rotation.
-    orange.setRotationFromAxisAngle(orange.state.rotationVector, 0);
+    orange.setRotationFromAxisAngle(orange.userData.vuv, 0);
 
     // Orange spawn limits.
     const safe_x = window.game.state.table.width;
@@ -24,11 +25,11 @@ const respawnOrange = (orange) => {
     const directionVector = new Vector3(0.5 - Math.random(), 0, 0.5 - Math.random()).normalize();
     const rotationVector = new Vector3(directionVector.z, 0, -directionVector.x);
 
-    orange.state = Object.assign(orange.state, {
+    orange.userData = Object.assign(orange.userData, {
         boundingBox: new Box3().setFromObject(orange),
         speed: baseSpeed * (1 + Math.random() * 0.2),
-        direction: directionVector,
-        rotationVector: rotationVector,
+        dof: directionVector,
+        vuv: rotationVector,
         spawnDelay: 2 * Math.random(),
         hasFallen: false,
     });
@@ -48,10 +49,10 @@ const moveOrange = (orange, delta) => {
         Math.abs(orange.position.z) > verticalLimit
     ) {
         const emptyVector = new Vector3(0.0001, 0.0001, 0.0001);
-        orange.state.hasFallen = true;
-        orange.state.spawnDelay -= delta;
+        orange.userData.hasFallen = true;
+        orange.userData.spawnDelay -= delta;
 
-        if (orange.state.spawnDelay < 0) {
+        if (orange.userData.spawnDelay < 0) {
             respawnOrange(orange);
         } else if (!orange.scale.equals(emptyVector)) {
             orange.scale.addScalar(-2*delta);
@@ -61,11 +62,11 @@ const moveOrange = (orange, delta) => {
         return;
     }
 
-    const distance = orange.state.speed * delta;
+    const distance = orange.userData.speed * delta;
 
-    orange.position.addScaledVector(orange.state.direction, distance);
-    orange.rotateOnAxis(orange.state.rotationVector, distance / orange.geometry.parameters.radius);
-    orange.state.boundingBox.setFromObject(orange);
+    Movement.updateObjectPosition(orange, delta);
+    Movement.updateObjectRotation(orange, delta);
+    orange.userData.boundingBox.setFromObject(orange);
 };
 
 export default (delta) => {

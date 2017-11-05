@@ -1,8 +1,16 @@
-import { Clock, Scene, Vector3, BoxHelper, WebGLRenderer } from 'three';
+import {
+  Clock,
+  Scene,
+  Vector3,
+  BoxHelper,
+  WebGLRenderer
+} from 'three';
 
 import BuildCameras from './Builders/BuildCameras';
 import BuildScene from './Builders/BuildScene';
 import BuildRenderer from './Builders/BuildRenderer';
+
+import Movement from './Movement';
 
 import onResize from './Events/onResize';
 import onKeyDown from './Events/onKeyDown';
@@ -45,18 +53,11 @@ class Game {
   animate() {
     const delta = this.clock.getDelta();
 
-    this.scene.traverse((node) => {
-      if(node.name !== 'AABB') {
-          return;
-      }
-      node.update();
-    });
-
     detectCollision();
     treatCollision();
 
     updateCarPosition(delta);
-    updateOrangePosition(delta);
+    // updateOrangePosition(delta);
     updateCheerioPosition(delta);
 
     updateControls();
@@ -69,20 +70,36 @@ class Game {
 
   restart() {
     const car = this.scene.getObjectByName('car');
-    car.state.speed = 0;
-    car.setRotationFromAxisAngle(new Vector3(0, 1, 0), -Math.PI/2);
-    car.position.copy(new Vector3(0, 3, 25));
+    car.userData.speed = 0;
+    car.setRotationFromAxisAngle(new Vector3(0, 1, 0), 0);
+    car.userData.dof = new Vector3(1, 0, 0);
+    car.position.copy(car.userData.initialPosition);
     this.clock.stop();
     this.clock.start();
 
     // Reposition cheerios.
     const cheerios = this.scene.getObjectByName('track');
     cheerios.children.forEach((cheerio) => {
-      cheerio.state.speed = 0;
-      cheerio.state.mov = new Vector3();
-      cheerio.position.copy(cheerio.state.initialPosition);
-      cheerio.state.boundingBox.setFromObject(cheerio);
+      cheerio.userData.speed = 0;
+      cheerio.userData.dof = new Vector3();
+      cheerio.position.copy(cheerio.userData.initialPosition);
+      cheerio.userData.boundingBox.setFromObject(cheerio);
     });
+  }
+
+  changeVehicle() {
+    if (this.userData.vehicle = 'car') {
+      this.vehicles.motorcycle.position.copy(this.vehicles.car.position);
+      this.scene.remove(this.vehicles.car);
+      this.scene.add(this.vehicles.motorcycle);
+      console.log('yay');
+      this.userData.vehicle = 'motorcycle';
+    } else {
+      this.vehicles.car.position.copy(this.vehicles.motorcycle.position);
+      this.scene.remove(this.vehicles.motorcycle);
+      this.scene.add(this.vehicles.car);
+      this.userData.vehicle = 'car';
+    }
   }
 };
 

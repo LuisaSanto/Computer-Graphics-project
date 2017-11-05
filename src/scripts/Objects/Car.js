@@ -5,137 +5,105 @@ import {
   ExtrudeGeometry,
   Group,
   Mesh,
+  MeshBasicMaterial,
   MeshLambertMaterial,
   PolyhedronGeometry,
   RingGeometry,
   Shape,
   TorusGeometry,
-  Vector3
+  Vector3,
+  LatheGeometry
 } from 'three';
 
-/**
- * Create glass object.
- */
-const createGlass = () => {
-  const glassShape = new Shape();
-  glassShape.moveTo(0, 0);
-  glassShape.lineTo(1, 0);
-  glassShape.lineTo(0, 3);
+class Car extends Group {
+  constructor(position = new Vector3(), scale = new Vector3(1, 1, 1)) {
+    super();
+    scale.multiply(new Vector3(.4, .4, .4));
+    this.name = 'car';
+    this.userData = {
+      acceleration: 0,
+      baseAcceleration: 20,
+      collision: [],
+      dof: new Vector3(1, 0, 0),
+      drag: 0.01, // As a percentage of the velocity.
+      initialPosition: position,
+      isStuck: false,
+      isRotationg: false,
+      maxAcceleration: 50,
+      maxSpeed: 40,
+      rotation: 3,
+      speed: 0,
+      turningLeft: false,
+      turningRight: false,
+      vuv: new Vector3(0, 1, 0),
+    };
+    this.add(
+      this.body(),
+      this.wheels()
+    );
+    this.scale.copy(scale);
+    this.position.copy(position);
+  }
 
-  const glassGeometry = new ExtrudeGeometry(glassShape, {
-    steps: 1,
-    amount: 3,
-    bevelEnabled: false,
-  });
+  body() {
+    const shape = new Shape();
+    shape.moveTo(1, 0);
+    shape.lineTo(5, 3);
+    shape.lineTo(2, 6);
+    shape.lineTo(1, 4);
+    shape.lineTo(-7, 4);
+    shape.lineTo(-6, 3);
+    shape.lineTo(-4, 3);
+    shape.lineTo(-2, 0);
+    shape.lineTo(1, 0);
 
-  const glass = new Mesh(glassGeometry, new MeshLambertMaterial({ color: 0x0000ff, wireframe: true }));
+    const extrudeSettings = {
+      steps: 2,
+      amount: 2,
+      bevelEnabled: true,
+      bevelThickness: 1,
+      bevelSize: 1,
+      bevelSegments: 1
+    };
 
-  glass.rotateY(Math.PI);
-  glass.rotateZ(Math.PI/2);
-  glass.position.set(1.5, 0, 1.5);
+    const geometry = new ExtrudeGeometry(shape, extrudeSettings);
+    const material = new MeshBasicMaterial({ color: 0xff0000, wireframe: false });
+    const body = new Mesh( geometry, material );
+    body.position.set(0, 0, -1);
 
-  return glass;
-};
+    return body;
+  }
 
-/**
- * Add wheel to group in specific position.
- *
- * @param {double} x
- * @param {double} y
- * @param {double} z
- */
-const addWheel = (x, y, z) => {
-  const wheel = new Group();
-  const tireGeometry = new TorusGeometry(.75, .30, 5, 10);
-  const rimGeometry = new RingGeometry(.1, .5);
-  const tire = new Mesh(tireGeometry, new MeshLambertMaterial({
-    color: 0x666666,
-    wireframe: true,
-  }));
-  const rim = new Mesh(rimGeometry, new MeshLambertMaterial({
-    color: 0x999999,
-    wireframe: true,
-    side: DoubleSide,
-  }));
+  wheels() {
+    const wheels = new Group();
+    wheels.name = 'wheels';
 
-  rim.name = 'rim';
+    const shape = new Shape();
+    shape.moveTo(.5, 0);
+    shape.lineTo(1, 0);
+    shape.bezierCurveTo(2.5, 0, 2.5, 4, 1, 4);
+    shape.lineTo(.5, 4);
+    shape.lineTo(.5, 0);
 
-  wheel.add(tire, rim);
-  wheel.name = 'wheel';
-  wheel.position.set(x, y, z);
+    const geometry = new LatheGeometry(shape.extractPoints().shape);
+    const material = new MeshBasicMaterial({ color: 0x333333, wireframe: false });
+    const wheel = new Mesh( geometry, material );
 
-  return wheel;
-};
+    wheel.rotateX(Math.PI/2);
 
-/**
- * Add car body to group.
- *
- * @param {double} x
- * @param {double} y
- * @param {double} z
- */
-const addBody = (x, y, z) => {
-  const body = new Group();
-  const frontGeometry = new BoxGeometry(3, 1, 3, 5, 5, 5);
-  const backGeometry = new BoxGeometry(3, 2, 3, 5, 5, 5);
+    const wheelFront = wheel.clone();
+    wheelFront.position.set(6, 0, -2);
+    const wheelBack = wheel.clone();
+    wheelBack.material = material.clone();
+    wheelBack.position.set(-6, 0, -2);
 
-  const front = new Mesh(frontGeometry, new MeshLambertMaterial({ color: 0x00ff00, wireframe: true }));
-  const back = new Mesh(backGeometry, new MeshLambertMaterial({ color: 0x00ff00, wireframe: true }));
+    wheels.add(
+      wheelFront,
+      wheelBack
+    );
 
-  // Back.
-  back.name = 'back';
-  back.add(
-    addWheel(0, -0.5, 2.5),
-    addWheel(0, -0.5, -2.5),
-  );
+    return wheels;
+  }
+}
 
-  // Front.
-  front.name = 'front';
-  front.position.set(3, -.5, 0);
-  front.add(
-    addWheel(0, 0, 2.5),
-    addWheel(0, 0, -2.5),
-  );
-
-  body.add(front, back, createGlass());
-  body.position.set(x, y, z);
-  body.rotateY(-Math.PI/2);
-
-  return body;
-};
-
-/**
- * Create car on given position.
- *
- * @param {double} x
- * @param {double} y
- * @param {double} z
- */
-export default (position, scale = new Vector3(1, 1, 1)) => {
-  const car = new Group();
-
-  car.state = {
-    acceleration: 0,
-    speed: 0,
-    collision: [],
-    turningLeft: false,
-    turningRight: false,
-    mov: new Vector3(),
-    isStuck: false,
-    forward: false,
-    reverse: false,
-    left: false,
-    right: false,
-  };
-
-  car.add(
-    addBody(0, 0, 0),
-  );
-  car.name = 'car';
-  car.rotateY(-Math.PI/2);
-
-  car.position.copy(position);
-  car.scale.copy(scale);
-
-  return car;
-};
+export default Car;

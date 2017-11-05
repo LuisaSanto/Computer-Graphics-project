@@ -1,59 +1,56 @@
 import { Vector3 } from 'three';
 
 const carCollision = (car) => {
-	car.state.collision.forEach((target) => {
+	car.userData.collision.forEach((target) => {
 		target = window.game.scene.getObjectById(target);
 		if (
-			target.state.forward === car.state.forward &&
-			target.state.reverse === car.state.reverse &&
-			target.state.left === car.state.left &&
-			target.state.right === car.state.right
+			target.userData.forward === car.userData.forward &&
+			target.userData.reverse === car.userData.reverse &&
+			target.userData.left === car.userData.left &&
+			target.userData.right === car.userData.right
 		) {
-			car.state.isStuck = true;
+			car.userData.isStuck = true;
 		} else {
-			car.state.isStuck = false;
+			car.userData.isStuck = false;
 		}
 	});
 };
 
 const cheerioCollision = (reference) => {
-	reference.state.collision.forEach((targetId) => {
+	reference.userData.collision.forEach((targetId) => {
 		const target = window.game.scene.getObjectById(targetId);
 		const referenceOldMovement = new Vector3();
 		let targetOldMovement = new Vector3();
 
-		referenceOldMovement.copy(reference.state.mov);
+		referenceOldMovement.copy(reference.userData.dof);
 
 		if (target.name === 'car') {
 			targetOldMovement = target.getWorldDirection();
 		} else {
-			targetOldMovement = target.state.mov;
+			targetOldMovement = target.userData.dof;
 		}
 
-		const referenceOldVelocity = Math.abs(reference.state.speed);
-
+		const referenceOldVelocity = Math.abs(reference.userData.speed);
 		const collisionVector = new Vector3();
-
 		let collisionPartial;
 
-		//target to reference velocity exchange
+		// Target to reference velocity exchange.
 		collisionVector.copy(reference.position);
 		collisionVector.sub(target.position);
 		collisionVector.normalize();
 		collisionPartial = Math.abs(collisionVector.dot(targetOldMovement));
 
-		reference.state.mov.add(collisionVector);
-		reference.state.mov.y = 0;
-		reference.state.mov.normalize();
-		reference.state.speed += Math.abs(target.state.speed * collisionPartial);
+		reference.userData.dof.add(collisionVector);
+		reference.userData.dof.y = 0;
+    reference.userData.dof.normalize();
+		reference.userData.speed += Math.abs(target.userData.speed * collisionPartial);
 
-
-		if(reference.state.speed < 2){
-			reference.state.speed = 5;
+		if (reference.userData.speed < 2) {
+			reference.userData.speed = 5;
 		}
 
 		if (target.name === 'car') {
-			reference.state.speed = reference.state.speed*0.9;
+			reference.userData.speed = reference.userData.speed;
 			return;
 		}
 		// Reference to target velocity exchange.
@@ -62,21 +59,21 @@ const cheerioCollision = (reference) => {
 		collisionVector.normalize();
 		collisionPartial = Math.abs(collisionVector.dot(referenceOldMovement));
 
-		target.state.mov.add(collisionVector);
-		target.state.mov.y = 0;
-		target.state.mov.normalize();
-		target.state.speed += Math.abs(referenceOldVelocity * collisionPartial);
+		target.userData.dof.add(collisionVector);
+		target.userData.dof.y = 0;
+		target.userData.dof.normalize();
+		target.userData.speed += Math.abs(referenceOldVelocity * collisionPartial);
 
 		//cheerio on cheerio, reduce speed
-		reference.state.speed = reference.state.speed*0.8;
+		reference.userData.speed = reference.userData.speed*0.8;
 
-		if(target.state.speed < 2){
-			target.state.speed = 2;
+		if(target.userData.speed < 2){
+			target.userData.speed = 2;
 		}
-		target.state.speed = target.state.speed*0.8;
+		target.userData.speed = target.userData.speed*0.8;
 	});
 
-	reference.state.collision = [];
+	reference.userData.collision = [];
 };
 
 export default () => {

@@ -15,16 +15,18 @@ export default (e) => {
       });
       break;
     case 37: // Left arrow
-      car.state.left = true;
+      car.userData.isRotating = true;
+      car.userData.rotationDir = 1;
       break;
     case 38: // Top arrow
-      car.state.forward = true;
+      car.userData.acceleration = car.userData.baseAcceleration;
       break;
     case 39: // Right
-      car.state.right = true;
-      break;
+      car.userData.isRotating = true;
+      car.userData.rotationDir = -1;
+    break;
     case 40: // Down arrow
-      car.state.reverse = true;
+      car.userData.acceleration = -car.userData.baseAcceleration;
       break;
     case 49: // 1
       window.game.state.currentCamera = window.game.cameras.orthogonal;
@@ -43,5 +45,8 @@ export default (e) => {
           vela.intensity = 0;
         }
       });
+    case 77:
+      window.game.changeVehicle();
+      break;
   }
 }

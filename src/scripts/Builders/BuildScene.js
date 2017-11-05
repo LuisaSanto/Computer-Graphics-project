@@ -12,10 +12,6 @@ class BuildScene {
     game.scene.add(
       new AxisHelper(10),
       Table(0, 0, 0),
-      Car(
-        new Vector3(0, 3, 25), // Car initial position.
-        new Vector3(1, 1, 1) // Car initial scale.
-      ),
       Track(0, 0, 0),
       new Oranges(3), // Amount.
       new Butters(5), // Amount.
@@ -27,7 +23,11 @@ class BuildScene {
         new Vector3(45, 5, -20),
         new Vector3(0, 5, 20),
         new Vector3(0, 5, -20)
-      ])
+      ]),
+      new Car(
+        new Vector3(0, 3, 25), // Car initial position.
+        new Vector3(1, 1, 1) // Car initial scale.
+      )
     );
   }
 }

@@ -26,7 +26,7 @@ class Butters extends Group {
 
     const butter = new Mesh(geometry, material);
 
-    butter.state = {
+    butter.userData = {
       boundingBox: AABB,
       collision: [],
       forward: false,
@@ -44,7 +44,7 @@ class Butters extends Group {
         Math.random() * safe_z - safe_z/2
       );
 
-      newButter.state = {
+      newButter.userData = {
         boundingBox: new Box3().setFromObject(newButter),
       }
 

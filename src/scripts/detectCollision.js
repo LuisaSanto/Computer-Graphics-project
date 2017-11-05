@@ -15,7 +15,7 @@ const checkCollisionBoxes = (A,B) => {
 };
 
 export default () => {
-	const car = window.game.scene.getObjectByName('car');
+  const car = window.game.scene.getObjectByName('car');
 	const oranges = window.game.scene.getObjectByName('oranges');
 	const track = window.game.scene.getObjectByName('track');
 	const butters = window.game.scene.getObjectByName('butters');
@@ -24,34 +24,34 @@ export default () => {
 
 	oranges.children.forEach(
 		(orange) => {
-			if (checkCollisionBoxes(orange.state.boundingBox, carBox)) {
+			if (checkCollisionBoxes(orange.userData.boundingBox, carBox)) {
 				window.game.restart();
 			}
 		}
 	);
 
 	butters.children.forEach((butter) => {
-		const butterInArray = car.state.collision.indexOf(butter.id);
+		const butterInArray = car.userData.collision.indexOf(butter.id);
 
-		if (checkCollisionBoxes(butter.state.boundingBox, carBox)) {
+		if (checkCollisionBoxes(butter.userData.boundingBox, carBox)) {
 			if (butterInArray !== -1) {
 				return;
 			}
 
-			car.state.collision.push(butter.id);
+			car.userData.collision.push(butter.id);
 
-			butter.state = Object.assign(butter.state, {
-				reverse: car.state.reverse,
-				forward: car.state.forward,
-				right: car.state.right,
-				left: car.state.left,
+			butter.userData = Object.assign(butter.userData, {
+				reverse: car.userData.reverse,
+				forward: car.userData.forward,
+				right: car.userData.right,
+				left: car.userData.left,
 			});
 		} else {
 			if (butterInArray === -1) {
 				return;
 			}
-			car.state.collision = [];
-			butter.state = Object.assign(butter.state, {
+			car.userData.collision = [];
+			butter.userData = Object.assign(butter.userData, {
 				reverse: false,
 				forward: false,
 				right: false,
@@ -61,9 +61,9 @@ export default () => {
 	});
 
 	track.children.forEach((cheerio) =>{
-		if (checkCollisionBoxes(cheerio.state.boundingBox, carBox)) {
+		if (checkCollisionBoxes(cheerio.userData.boundingBox, carBox)) {
 			//check for false positives, use radius ??
-			cheerio.state.collision.push(car.id);
+			cheerio.userData.collision.push(car.id);
 		}
 	});
 
@@ -74,8 +74,8 @@ export default () => {
 					if(referenceNode.id === trackNode.id){
 						return;
 					}
-					if(checkCollisionBoxes(referenceNode.state.boundingBox,trackNode.state.boundingBox)){
-						referenceNode.state.collision.push(trackNode.id);
+					if(checkCollisionBoxes(referenceNode.userData.boundingBox,trackNode.userData.boundingBox)){
+						referenceNode.userData.collision.push(trackNode.id);
 					}
 				}
 			)
