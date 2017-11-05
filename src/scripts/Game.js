@@ -71,7 +71,7 @@ class Game {
     const car = this.scene.getObjectByName('car');
     car.state.speed = 0;
     car.setRotationFromAxisAngle(new Vector3(0, 1, 0), -Math.PI/2);
-    car.position.copy(new Vector3(0, 3, 25));
+    car.position.copy(new Vector3(0, 0, 25));
     this.clock.stop();
     this.clock.start();
 

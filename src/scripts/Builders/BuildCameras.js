@@ -20,15 +20,15 @@ class BuildCameras {
 
   static buildThirdPersonCamera(scene) {
     const car = scene.getObjectByName('car');
-    const camera = this.perspective(0, 5, -10, car.position);
+    const camera = this.perspective(0, 10, -10, car.position);
     car.add(camera);
-    camera.lookAt(new Vector3(0, 0, 0));
+    camera.lookAt(new Vector3(0, 2, 5));
     return camera;
   }
 
   static build(game) {
     game.cameras = {
-      orthogonal: this.orthogonal(0, 10, 0, game.scene.position),
+      orthogonal: this.orthogonal(0, 20, 0, game.scene.position),
       thirdPerson: this.buildThirdPersonCamera(game.scene),
       perspective: this.perspective(75, 75, 75, game.scene.position),
     };
