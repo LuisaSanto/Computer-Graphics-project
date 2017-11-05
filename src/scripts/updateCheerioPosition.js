@@ -8,18 +8,16 @@ export default (delta) => {
     if (cheerio.userData.speed === 0) {
       return;
 		}
-    // console.log(cheerio);
 
-		if (cheerio.userData.speed > 50){
-			cheerio.userData.speed = 50;
+		if (cheerio.userData.speed > 30){
+			cheerio.userData.speed = 30;
 		} else if (cheerio.userData.speed < 2) {
 			cheerio.userData.speed = 0;
 			cheerio.userData.dof = new Vector3();
     }
 
+    Movement.updateObjectSpeed(cheerio, delta);
     Movement.updateObjectPosition(cheerio, delta);
-		// cheerio.userData.speed = cheerio.userData.speed - 80*delta;
-		// cheerio.position.addScaledVector(cheerio.userData.mov, cheerio.userData.speed*delta);
 		cheerio.userData.boundingBox.setFromObject(cheerio);
 	});
 };

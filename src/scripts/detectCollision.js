@@ -1,4 +1,4 @@
-import { Box3 } from 'three';
+import { Box3, Vector3 } from 'three';
 
 const checkCollisionBoxes = (A,B) => {
 	if (
@@ -41,10 +41,9 @@ export default () => {
 			car.userData.collision.push(butter.id);
 
 			butter.userData = Object.assign(butter.userData, {
-				reverse: car.userData.reverse,
-				forward: car.userData.forward,
-				right: car.userData.right,
-				left: car.userData.left,
+				dof: car.userData.dof,
+				isRotating: car.userData.isRotating,
+				rotationDir: car.userData.rotationDir,
 			});
 		} else {
 			if (butterInArray === -1) {
@@ -52,18 +51,16 @@ export default () => {
 			}
 			car.userData.collision = [];
 			butter.userData = Object.assign(butter.userData, {
-				reverse: false,
-				forward: false,
-				right: false,
-				left: false,
+				dof: new Vector3(),
+				isRotating: false,
+				rotationDir: 0,
 			});
 		}
 	});
 
 	track.children.forEach((cheerio) =>{
 		if (checkCollisionBoxes(cheerio.userData.boundingBox, carBox)) {
-			//check for false positives, use radius ??
-			cheerio.userData.collision.push(car.id);console.log(cheerio);
+			cheerio.userData.collision.push(car.id);
 		}
 	});
 
@@ -71,12 +68,11 @@ export default () => {
 		(referenceNode) =>{
 			track.children.forEach(
 				(trackNode) =>{
-					if(referenceNode.id === trackNode.id){
+					if (referenceNode.id === trackNode.id) {
 						return;
 					}
-					if(checkCollisionBoxes(referenceNode.userData.boundingBox,trackNode.userData.boundingBox)){
+					if (checkCollisionBoxes(referenceNode.userData.boundingBox,trackNode.userData.boundingBox)) {
             referenceNode.userData.collision.push(trackNode.id);
-            console.log(reference);
 					}
 				}
 			)

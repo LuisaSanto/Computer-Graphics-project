@@ -8,9 +8,11 @@ const addCheerio = (group, x, y, z) => {
 	const position = new Vector3(x, y, z);
 
 	cheerio.userData = {
-		boundingBox: AABB,
-		speed: 0,
-		dof: new Vector3(),
+    boundingBox: AABB,
+    acceleration: 0,
+    speed: 0,
+    drag: 0.05,
+		dof: new Vector3(1, 0, 0),
 		collision: [],
 		initialPosition: position,
 	};
@@ -63,6 +65,6 @@ export default (x, y, z) => {
 	createSemiSphere(track, -30, 2, 0, 15, Math.PI/2, Math.PI/6, 1);
 	createSemiSphere(track, 30, 2, 0, 15, 3*Math.PI/2, Math.PI/7, 1);
 	createLine(track, -30, 2, -15, 60, 6);
-	createLine(track, -30, 2, 15, 60, 6);
+  createLine(track, -30, 2, 15, 60, 6);
 	return track;
 }

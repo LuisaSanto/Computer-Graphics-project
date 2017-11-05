@@ -57,7 +57,7 @@ class Game {
     treatCollision();
 
     updateCarPosition(delta);
-    // updateOrangePosition(delta);
+    updateOrangePosition(delta);
     updateCheerioPosition(delta);
 
     updateControls();
@@ -70,10 +70,16 @@ class Game {
 
   restart() {
     const car = this.scene.getObjectByName('car');
-    car.userData.speed = 0;
     car.setRotationFromAxisAngle(new Vector3(0, 1, 0), 0);
-    car.userData.dof = new Vector3(1, 0, 0);
     car.position.copy(car.userData.initialPosition);
+    car.userData = Object.assign(car.userData, {
+      acceleration: 0,
+      speed: 0,
+      dof: new Vector3(1, 0, 0),
+      collision: [],
+      isStuck: false,
+      isRotationg: false,
+    });
     this.clock.stop();
     this.clock.start();
 

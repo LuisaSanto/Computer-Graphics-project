@@ -57,7 +57,6 @@ class Movement {
     const matrix = new Matrix4();
     const dof = obj.userData.dof.clone();
 
-    this.updateObjectSpeed(obj, delta);
     matrix.setPosition(dof.multiplyScalar(obj.userData.speed * delta));
     obj.applyMatrix(matrix);
   }

@@ -4,12 +4,12 @@ const carCollision = (car) => {
 	car.userData.collision.forEach((target) => {
 		target = window.game.scene.getObjectById(target);
 		if (
-			target.userData.forward === car.userData.forward &&
-			target.userData.reverse === car.userData.reverse &&
-			target.userData.left === car.userData.left &&
-			target.userData.right === car.userData.right
+			target.userData.dof.equals(car.userData.dof) &&
+			target.userData.isRotating === car.userData.isRotating &&
+			target.userData.rotationDir === car.userData.rotationDir
 		) {
-			car.userData.isStuck = true;
+      car.userData.isStuck = true;
+      car.userData.speed = 0;
 		} else {
 			car.userData.isStuck = false;
 		}
@@ -39,15 +39,12 @@ const cheerioCollision = (reference) => {
 		reference.userData.dof.y = 0;
     reference.userData.dof.normalize();
 		reference.userData.speed += Math.abs(target.userData.speed * collisionPartial);
-    // console.log(target.userData.speed);
-    // console.log(reference.userData.speed);
 
 		if (reference.userData.speed < 2) {
 			reference.userData.speed = 5;
 		}
 
 		if (target.name === 'car') {
-			reference.userData.speed = reference.userData.speed * 0.9;
 			return;
     }
 

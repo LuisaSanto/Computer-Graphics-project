@@ -3,7 +3,8 @@ import {
   BoxGeometry,
   Group,
   Mesh,
-  MeshLambertMaterial
+  MeshLambertMaterial,
+  Vector3
 } from 'three';
 
 class Butters extends Group {
@@ -29,10 +30,9 @@ class Butters extends Group {
     butter.userData = {
       boundingBox: AABB,
       collision: [],
-      forward: false,
-      reverse: false,
-      right: false,
-      left: false,
+      dof: new Vector3(),
+      isRotating: false,
+      rotationDir: 0,
     }
     butter.name = 'butter';
 

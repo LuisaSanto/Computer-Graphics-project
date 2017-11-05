@@ -25,10 +25,11 @@ class Car extends Group {
       baseAcceleration: 20,
       collision: [],
       dof: new Vector3(1, 0, 0),
-      drag: 0.01, // As a percentage of the velocity.
+      drag: 0.02, // As a percentage of the velocity.
       initialPosition: position,
       isStuck: false,
       isRotationg: false,
+      rotationDir: 0,
       maxAcceleration: 50,
       maxSpeed: 40,
       rotation: 3,
