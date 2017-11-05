@@ -18,7 +18,14 @@ const addCheerio = (group, x, y, z) => {
 	};
 	cheerio.name = 'cheerio';
 	cheerio.position.copy(position);
-	cheerio.rotation.set(Math.PI/2,0,0);
+  cheerio.rotation.set(Math.PI/2,0,0);
+
+  cheerio.reset = function() {
+    this.userData.speed = 0;
+    this.userData.dof = new Vector3();
+    this.position.copy(this.userData.initialPosition);
+    this.userData.boundingBox.setFromObject(this);
+  }
 
 	AABB.setFromObject(cheerio);
 

@@ -59,6 +59,8 @@ class Movement {
 
     matrix.setPosition(dof.multiplyScalar(obj.userData.speed * delta));
     obj.applyMatrix(matrix);
+
+    this.resetIfOutOfBounds(obj);
   }
 
   /**
@@ -88,6 +90,21 @@ class Movement {
    */
   static updateObjectRotation(obj, delta) {
     obj.rotateOnAxis(obj.userData.vuv, obj.userData.speed * delta / obj.userData.radius);
+  }
+
+  static resetIfOutOfBounds(obj) {
+
+    // Ignore oranges for now.
+    if (obj.name === 'orange') {
+      return;
+    }
+
+    if (
+      Math.abs(obj.position.x) > 70 ||
+      Math.abs(obj.position.z) > 50
+    ) {
+      obj.reset();
+    }
   }
 }
 
