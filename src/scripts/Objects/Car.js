@@ -14,7 +14,8 @@ import {
   CurvePath,
   CubicBezierCurve3,
   ExtrudeGeometry,
-  Geometry
+  Geometry,
+  FrontSide
 } from 'three';
 
 const addBody = () => {
@@ -376,7 +377,7 @@ const addStump = () => {
   var materialArgs = {
     color: 0x00ff00,
     wireframe: window.game.state.wireframe,
-    side: 2,
+    side: FrontSide,
   };
   var mesh = new Mesh(geometry, [
     new MeshBasicMaterial(materialArgs),
