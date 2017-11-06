@@ -31,6 +31,7 @@ export default () => {
 	);
 
 	butters.children.forEach((butter) => {
+    butter.state.boundingBox = new Box3().setFromObject(butter);
 		const butterInArray = car.state.collision.indexOf(butter.id);
 
 		if (checkCollisionBoxes(butter.state.boundingBox, carBox)) {

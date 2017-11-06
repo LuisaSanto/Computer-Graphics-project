@@ -1,25 +1,49 @@
-import { Group, BoxGeometry, MeshBasicMaterial, Mesh, MeshLambertMaterial} from 'three';
+import {
+  Group,
+  BoxGeometry,
+  Mesh,
+  MeshBasicMaterial,
+  MeshLambertMaterial,
+  MeshPhongMaterial
+} from 'three';
 
 const addTableTop = (group, width, height, x, y, z) => {
   const geometry = new BoxGeometry(width, 2, height, 25, 2, 25);
-  const material = new MeshLambertMaterial({
+  const materialArgs = {
     color: 0xa66829,
-    wireframe: true
-  });
-  const top = new Mesh(geometry, material);
+    wireframe: window.game.state.wireframe,
+  };
+  const top = new Mesh(geometry, new MeshBasicMaterial(materialArgs));
+
+  top.state = {
+    materials: [
+      new MeshBasicMaterial(materialArgs),
+      new MeshLambertMaterial(materialArgs),
+      new MeshPhongMaterial(materialArgs),
+    ],
+  }
 
   top.position.set(x, y, z);
   group.add(top);
 }
 
-const addTableLeg = (group, x, y, z) => {
+const addTableLeg = (group, x, y, z, name) => {
   const geometry = new BoxGeometry(2, 6, 2);
-  const material = new MeshBasicMaterial({
+  const materialArgs = {
     color: 0xa66829,
     wireframe: window.game.state.wireframe,
-  });
-  const leg = new Mesh(geometry, material);
+  };
+  const leg = new Mesh(geometry, new MeshBasicMaterial(materialArgs));
 
+  leg.state = {
+    materials: [
+      new MeshBasicMaterial(materialArgs),
+      new MeshLambertMaterial(materialArgs),
+      new MeshPhongMaterial(materialArgs),
+    ],
+  }
+
+  leg.name = name;
   leg.position.set(x, y, z);
   group.add(leg);
 }

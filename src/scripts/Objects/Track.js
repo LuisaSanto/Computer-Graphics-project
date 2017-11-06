@@ -1,12 +1,29 @@
-import { Group, TorusGeometry, MeshLambertMaterial, Mesh, Vector3, Box3 } from 'three';
+import {
+  Group,
+  TorusGeometry,
+  MeshLambertMaterial,
+  MeshPhongMaterial,
+  MeshBasicMaterial,
+  Mesh,
+  Vector3,
+  Box3
+} from 'three';
 
 const addCheerio = (group, x, y, z) => {
 	const AABB = new Box3();
-	const geometry = new TorusGeometry(0.75, 0.3, 5, 10);
-	const material = new MeshLambertMaterial({color: 0xcccc00,wireframe: true});
-	const cheerio = new Mesh(geometry, material);
+  const geometry = new TorusGeometry(0.75, 0.3, 5, 20);
+  const materialArgs = {
+    color: 0xcccc00,
+    wireframe: window.game.state.wireframe,
+  };
+	const cheerio = new Mesh(geometry, [
+    new MeshBasicMaterial(materialArgs),
+    new MeshLambertMaterial(materialArgs),
+    new MeshPhongMaterial(materialArgs),
+  ]);
+
 	const mov = new Vector3();
-	const position = new Vector3(x, y, z);
+	const position = new Vector3(x, y-0.5, z);
 
 	cheerio.name = 'cheerio';
 	cheerio.position.copy(position);
@@ -56,12 +73,12 @@ export default (x, y, z) => {
 	const track = new Group();
 	track.name = 'track';
 	//outer rim of track
-	createSemiSphere(track, -30, 2, 0, 30, Math.PI/2, Math.PI/10, 1);	
+	createSemiSphere(track, -30, 2, 0, 30, Math.PI/2, Math.PI/10, 1);
 	createSemiSphere(track, 30, 2, 0, 30, 3*Math.PI/2, Math.PI/10, 1);
 	createLine(track, -30, 2, -30, 60, 10);
 	createLine(track, -30, 2, 30, 60, 10);
 	//inner rim of track
-	createSemiSphere(track, -30, 2, 0, 15, Math.PI/2, Math.PI/6, 1);	
+	createSemiSphere(track, -30, 2, 0, 15, Math.PI/2, Math.PI/6, 1);
 	createSemiSphere(track, 30, 2, 0, 15, 3*Math.PI/2, Math.PI/7, 1);
 	createLine(track, -30, 2, -15, 60, 6);
 	createLine(track, -30, 2, 15, 60, 6);
