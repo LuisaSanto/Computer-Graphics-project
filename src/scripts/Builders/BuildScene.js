@@ -14,7 +14,7 @@ class BuildScene {
       Table(0, 0, 0),
       Car(
         new Vector3(0, 0, 25), // Car initial position.
-        new Vector3(1, 1, 1) // Car initial scale.
+        new Vector3(0.8, 0.8, 0.8) // Car initial scale.
       ),
       Track(0, 0, 0),
       new Oranges(3), // Amount.

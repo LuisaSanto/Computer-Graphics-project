@@ -356,9 +356,7 @@ const addExhaustPipes = () => {
   const exhaustPipeLeft = addExhaustPipe(1);
   const exhaustPipeRight = new Group();
   exhaustPipeRight.add(addExhaustPipe(-1));
-  exhaustPipeRight.position.z-=1;
-  console.log(exhaustPipeLeft);
-  console.log(exhaustPipeRight);
+  exhaustPipeRight.position.z -= 1;
 
   ExhaustPipes.add(
     mesh1,
