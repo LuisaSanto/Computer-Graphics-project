@@ -233,30 +233,42 @@ const addExhaustPipe = (side) => {
   shape.bezierCurveTo(0, 0.5, 0.5, 0, 1 ,0);
 
   var path = new CurvePath();
-    path.add( new CubicBezierCurve3(  new Vector3(0, 0, 0),
-                                      new Vector3(0, 0.5, 0),
-                                      new Vector3(0.5, 0.5, 0),
-                                      new Vector3(1, 1, 0)));
-    path.add( new CubicBezierCurve3(  new Vector3(1, 1, 0),
-                                      new Vector3(2, 1, 0),
-                                      new Vector3(3, 1, 0),
-                                      new Vector3(12, 1, 0)));
-    path.add( new CubicBezierCurve3(  new Vector3(12, 1, 0),
-                                      new Vector3(12.5, 0.75, 0.5),
-                                      new Vector3(13, 0.75, 1.5),
-                                      new Vector3(13, 0.5, 2)));
-    path.add( new CubicBezierCurve3(  new Vector3(13, 0.5, 2),
-                                      new Vector3(13, -1.625, 4),
-                                      new Vector3(13, -4.875, 6),
-                                      new Vector3(13, -8, 6)));
-    path.add( new CubicBezierCurve3(  new Vector3(13, -8, 6),
-                                      new Vector3(13, -9, 6),
-                                      new Vector3(14, -10, 6),
-                                      new Vector3(15, -10, 6)));
-    path.add( new CubicBezierCurve3(  new Vector3(15, -10, 6),
-                                      new Vector3(16, -10, 6),
-                                      new Vector3(17, -10, 7),
-                                      new Vector3(17, -10, 8)));
+    path.add( new CubicBezierCurve3(
+      new Vector3(0, 0, 0),
+      new Vector3(0, 0.5, 0),
+      new Vector3(0.5, 0.5, 0),
+      new Vector3(1, 1, 0))
+    );
+    path.add( new CubicBezierCurve3(
+      new Vector3(1, 1, 0),
+      new Vector3(2, 1, 0),
+      new Vector3(3, 1, 0),
+      new Vector3(12, 1, 0))
+    );
+    path.add( new CubicBezierCurve3(
+      new Vector3(12, 1, 0),
+      new Vector3(12.5, 0.75, 0.5),
+      new Vector3(13, 0.75, 1.5),
+      new Vector3(13, 0.5, 2))
+    );
+    path.add( new CubicBezierCurve3(
+      new Vector3(13, 0.5, 2),
+      new Vector3(13, -1.625, 4),
+      new Vector3(13, -4.875, 6),
+      new Vector3(13, -8, 6))
+    );
+    path.add( new CubicBezierCurve3(
+      new Vector3(13, -8, 6),
+      new Vector3(13, -9, 6),
+      new Vector3(14, -10, 6),
+      new Vector3(15, -10, 6))
+    );
+    path.add( new CubicBezierCurve3(
+      new Vector3(15, -10, 6),
+      new Vector3(16, -10, 6),
+      new Vector3(17, -10, 7),
+      new Vector3(17, -10, 8))
+    );
 
   var extrudeSettings = {
     curveSegments:3,
@@ -324,7 +336,7 @@ const addExhaustPipes = () => {
   mesh1.scale.copy(new Vector3(0.06,0.06,0.06))
 
   var geometry2 = new LatheGeometry( shape.extractPoints(2).shape);
-  var mesh2 = new Mesh(geometry, [
+  var mesh2 = new Mesh(geometry2, [
     new MeshBasicMaterial(materialArgs),
     new MeshLambertMaterial(materialArgs),
     new MeshPhongMaterial(materialArgs),
@@ -338,12 +350,15 @@ const addExhaustPipes = () => {
   const exhaustPipeRight = new Group();
   exhaustPipeRight.add(addExhaustPipe(-1));
   exhaustPipeRight.position.z-=1;
+  console.log(exhaustPipeLeft);
+  console.log(exhaustPipeRight);
 
-  ExhaustPipes.add( mesh1,
-                    mesh2,
-                    exhaustPipeRight,
-                    exhaustPipeLeft
-                    );
+  ExhaustPipes.add(
+    mesh1,
+    mesh2,
+    exhaustPipeRight,
+    exhaustPipeLeft
+  );
 
   ExhaustPipes.rotateY(Math.PI/2);
 
@@ -424,7 +439,6 @@ const addDomeRing = () => {
  */
 export default (position, scale = new Vector3(0.7, 0.7, 0.7)) => {
   const car = new Group();
-  const car2 = new Group();
 
   car.state = {
     acceleration: 0,
@@ -440,15 +454,16 @@ export default (position, scale = new Vector3(0.7, 0.7, 0.7)) => {
     right: false,
   };
   car.name = 'car';
-  car.add(addBody(),
-          addWheels(),
-          addWheelAxis(),
-          addWindowDome(),
-          addHeadLights(),
-          addExhaustPipes(),
-          addStump(),
-          addDomeRing()
-          );
+  car.add(
+    addBody(),
+    addWheels(),
+    addWheelAxis(),
+    addWindowDome(),
+    addHeadLights(),
+    addExhaustPipes(),
+    addStump(),
+    addDomeRing()
+  );
 
   car.rotateY(-Math.PI/2);
   car.position.copy(position);

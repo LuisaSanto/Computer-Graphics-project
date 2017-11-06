@@ -28,7 +28,6 @@ class Butters extends Group {
     const AABB = new Box3();
 
     butter.state = {
-      boundingBox: AABB,
       collision: [],
       forward: false,
       reverse: false,
@@ -52,7 +51,7 @@ class Butters extends Group {
       );
 
       newButter.state = Object.assign(butter.state, {
-        boundingBox: new Box3().setFromObject(newButter),
+        boundingBox: AABB.setFromObject(newButter).clone(),
       });
 
       this.add(newButter);

@@ -104,7 +104,6 @@ class Game {
           node.state.materials != undefined &&
           node.state.materials.length > 1
         ) {
-          console.log(node);
           this.fallBackMethod(node, name);
           return;
         }
