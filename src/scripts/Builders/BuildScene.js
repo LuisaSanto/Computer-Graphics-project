@@ -1,6 +1,6 @@
 import { AxisHelper, Vector3 } from 'three';
 
-import Orange from './../Objects/Orange';
+import Oranges from './../Objects/Oranges';
 import Butters from './../Objects/Butters';
 import Car from './../Objects/Car';
 import Table from './../Objects/Table';
@@ -11,14 +11,13 @@ import Sun from './../Objects/Sun';
 class BuildScene {
   static build(game) {
     game.scene.add(
-      new AxisHelper(10),
       Table(0, 0, 0),
       Car(
         new Vector3(0, 0, 25), // Car initial position.
         new Vector3(1, 1, 1) // Car initial scale.
       ),
       Track(0, 0, 0),
-      new Orange(3), // Amount.
+      new Oranges(3), // Amount.
       new Butters(5), // Amount.
       new Candles([
         // Candle positions.

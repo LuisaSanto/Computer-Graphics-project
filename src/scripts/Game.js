@@ -26,6 +26,13 @@ class Game {
         width: 140,
         height: 100,
       },
+      light: true,
+      materials: [
+        'MeshBasicMaterial',
+        'MeshLambertMaterial',
+        'MeshPhongMaterial',
+      ],
+      currentMaterial: 'MeshLambertMaterial',
     };
   }
 
@@ -33,6 +40,7 @@ class Game {
     BuildScene.build(this);
     BuildCameras.build(this);
     BuildRenderer.build(this);
+    this.changeMaterials();
 
     document.body.appendChild(this.renderer.domElement);
 
@@ -83,6 +91,41 @@ class Game {
       cheerio.position.copy(cheerio.state.initialPosition);
       cheerio.state.boundingBox.setFromObject(cheerio);
     });
+  }
+
+  changeMaterials(name = this.state.currentMaterial) {
+    this.scene.traverse((node) => {
+      if (
+        node.material == undefined ||
+        node.material.length == undefined
+      ) {
+        if (
+          node.state != undefined &&
+          node.state.materials != undefined &&
+          node.state.materials.length > 1
+        ) {
+          console.log(node);
+          this.fallBackMethod(node, name);
+          return;
+        }
+        return;
+      }
+      node.material.splice(0, 0, node.material.splice(this.getNewMaterialIndex(node.material, name), 1)[0]);
+    });
+  }
+
+  fallBackMethod(obj, name) {
+    obj.state.materials.splice(0, 0, obj.state.materials.splice(this.getNewMaterialIndex(obj.state.materials, name), 1)[0]);
+    obj.material = obj.state.materials[0];
+  }
+
+  getNewMaterialIndex(materials, name) {
+    for (let i = 0; i < materials.length; i++) {
+      if (materials[i].type === name) {
+        return i;
+      }
+    }
+    return 0;
   }
 };
 

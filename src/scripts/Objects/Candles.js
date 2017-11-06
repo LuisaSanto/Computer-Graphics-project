@@ -3,7 +3,7 @@ import {
   Mesh,
   MeshLambertMaterial,
   MeshBasicMaterial,
-  MeshPhongMaterial, 
+  MeshPhongMaterial,
   LatheGeometry,
   PointLight,
   Shape,
@@ -18,13 +18,12 @@ class Candles extends Group {
     positions.forEach((position) => {
       const light = new PointLight(0xffffff, 2, 60, 2);
       light.position.copy(position);
-      this.add(light,this.lantern(position));
+      this.add(light, this.lantern(position));
     });
   }
 
-    lantern(position){
-
-    var shape = new Shape();
+  lantern(position) {
+    const shape = new Shape();
     shape.moveTo(2, 0);
     shape.bezierCurveTo(4, 0, 5, 3, 4, 4);
     shape.bezierCurveTo(6, 4, 7, 5, 6, 8);
@@ -35,21 +34,20 @@ class Candles extends Group {
     shape.lineTo(0.2, 500);
 
 
-    var geometry = new LatheGeometry( shape.extractPoints(5).shape,14);
-    var BasicMaterial = new MeshBasicMaterial( { color: 0xff0000, wireframe: true, side:2} );
-    var LambertMaterial = new MeshLambertMaterial( { color: 0xff0000, wireframe: true, side:2} );
-    var PhongMaterial = new MeshPhongMaterial( { color: 0xff0000, wireframe: true, side:2} );
-    var mesh = new Mesh( geometry, PhongMaterial );
-
-    mesh.state = {
-      phongMaterial: PhongMaterial, 
-      lambertMaterial: LambertMaterial,
-      basicMaterial: BasicMaterial,
-    }
+    const geometry = new LatheGeometry( shape.extractPoints(5).shape,14);
+    const materialArgs = {
+      color: 0xff0000,
+      wireframe: window.game.state.wireframe,
+      side: 2,
+    };
+    const mesh = new Mesh(geometry, [
+      new MeshBasicMaterial(materialArgs),
+      new MeshLambertMaterial(materialArgs),
+      new MeshPhongMaterial(materialArgs),
+    ]);
 
     mesh.position.copy(position);
     mesh.scale.copy(new Vector3(0.3,0.3,0.3));
-    mesh.name = "lantern";
     return mesh;
   }
 }

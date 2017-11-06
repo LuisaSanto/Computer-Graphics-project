@@ -1,26 +1,26 @@
-import { Group, BoxGeometry,  Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial} from 'three';
+import {
+  Group,
+  BoxGeometry,
+  Mesh,
+  MeshBasicMaterial,
+  MeshLambertMaterial,
+  MeshPhongMaterial
+} from 'three';
 
 const addTableTop = (group, width, height, x, y, z) => {
   const geometry = new BoxGeometry(width, 2, height, 25, 2, 25);
-  const BasicMaterial = new MeshBasicMaterial({
+  const materialArgs = {
     color: 0xa66829,
-    wireframe: true
-  });
-  const LambertMaterial = new MeshLambertMaterial({
-    color: 0xa66829,
-    wireframe: true
-  });
-  const PhongMaterial = new MeshPhongMaterial({
-    color: 0xa66829,
-    wireframe: true
-  });
-  const top = new Mesh(geometry, PhongMaterial);
-  top.name = "top";
+    wireframe: window.game.state.wireframe,
+  };
+  const top = new Mesh(geometry, new MeshBasicMaterial(materialArgs));
 
   top.state = {
-    basicMaterial: BasicMaterial,
-    lambertMaterial: LambertMaterial,
-    phongMaterial: PhongMaterial,
+    materials: [
+      new MeshBasicMaterial(materialArgs),
+      new MeshLambertMaterial(materialArgs),
+      new MeshPhongMaterial(materialArgs),
+    ],
   }
 
   top.position.set(x, y, z);
@@ -29,25 +29,20 @@ const addTableTop = (group, width, height, x, y, z) => {
 
 const addTableLeg = (group, x, y, z, name) => {
   const geometry = new BoxGeometry(2, 6, 2);
-  const BasicMaterial = new MeshBasicMaterial({
+  const materialArgs = {
     color: 0xa66829,
-    wireframe: true
-  });
-  const LambertMaterial = new MeshLambertMaterial({
-    color: 0xa66829,
-    wireframe: true
-  });
-  const PhongMaterial = new MeshPhongMaterial({
-    color: 0xa66829,
-    wireframe: true
-  });
-  const leg = new Mesh(geometry, PhongMaterial);
+    wireframe: window.game.state.wireframe,
+  };
+  const leg = new Mesh(geometry, new MeshBasicMaterial(materialArgs));
 
   leg.state = {
-    basicMaterial: BasicMaterial,
-    lambertMaterial: LambertMaterial,
-    phongMaterial: PhongMaterial,
+    materials: [
+      new MeshBasicMaterial(materialArgs),
+      new MeshLambertMaterial(materialArgs),
+      new MeshPhongMaterial(materialArgs),
+    ],
   }
+
   leg.name = name;
   leg.position.set(x, y, z);
   group.add(leg);
@@ -59,10 +54,10 @@ export default (x, y, z) => {
   const table = new Group();
 
   addTableTop(table, width, height, 0, 0, 0);
-  addTableLeg(table, (width/2 - 1), -4, (height/2 - 1), "leg1");
-  addTableLeg(table, -(width/2 - 1), -4, (height/2 - 1), "leg2");
-  addTableLeg(table, (width/2 - 1), -4, -(height/2 - 1), "leg3");
-  addTableLeg(table, -(width/2 - 1), -4, -(height/2 - 1), "leg4");
+  addTableLeg(table, (width/2 - 1), -4, (height/2 - 1));
+  addTableLeg(table, -(width/2 - 1), -4, (height/2 - 1));
+  addTableLeg(table, (width/2 - 1), -4, -(height/2 - 1));
+  addTableLeg(table, -(width/2 - 1), -4, -(height/2 - 1));
 
   table.position.set(x, y, z);
   table.name = 'table';

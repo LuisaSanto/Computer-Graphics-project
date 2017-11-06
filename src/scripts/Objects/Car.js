@@ -22,26 +22,25 @@ const addBody = () => {
   var shape = new Shape();
   shape.moveTo(0,1);
   shape.bezierCurveTo(3, 1, 4, 3, 4 ,5);
-  shape.bezierCurveTo(4, 11, 3, 17, 2, 19);  
+  shape.bezierCurveTo(4, 11, 3, 17, 2, 19);
   shape.bezierCurveTo(2, 20, 1, 21, 0, 21);
 
   var geometry = new LatheGeometry( shape.extractPoints(10).shape);
-  var BasicMaterial = new MeshBasicMaterial( { color: 0xcc5300, wireframe: true } );
-  var LambertMaterial = new MeshLambertMaterial( { color: 0xcc5300, wireframe: true } );
-  var PhongMaterial = new MeshPhongMaterial( { color: 0xcc5300, wireframe: true } );
-  var mesh = new Mesh( geometry, PhongMaterial ) ;
+  var materialArgs = {
+    color: 0xcc5300,
+    wireframe: window.game.state.wireframe,
+  };
+  var mesh = new Mesh(geometry, [
+    new MeshBasicMaterial( materialArgs ),
+    new MeshLambertMaterial( materialArgs ),
+    new MeshPhongMaterial( materialArgs ),
+  ]) ;
+
   body.add(mesh);
   body.position.set(0,2,0);
   body.rotateZ(Math.PI/2);
   body.scale.copy(new Vector3(0.4,0.4,0.4));
   body.rotateX(Math.PI/2);
-
-  mesh.name = "CarPart";
-  mesh.state = {
-    basicMaterial: BasicMaterial,
-    lambertMaterial: LambertMaterial,
-    phongMaterial: PhongMaterial,
-  }
 
   return body;
 }
@@ -55,19 +54,14 @@ const wheelMesh = (scale) => {
   rectangle.lineTo(1,0);
 
   var geometry = new LatheGeometry( rectangle.extractPoints(10).shape,20);
-  var BasicMaterial = new MeshBasicMaterial( { color: 0x444444, wireframe: true} );
-  var LambertMaterial = new MeshLambertMaterial( { color: 0x444444, wireframe: true} );
-  var PhongMaterial = new MeshPhongMaterial( { color: 0x444444, wireframe: true, shininess: 10 } );
-  var mesh = new Mesh( geometry, PhongMaterial ) ;
+  var mesh = new Mesh(geometry, [
+    new MeshBasicMaterial( { color: 0x444444, wireframe: window.game.state.wireframe } ),
+    new MeshLambertMaterial( { color: 0x444444, wireframe: window.game.state.wireframe } ),
+    new MeshPhongMaterial( { color: 0x444444, wireframe: window.game.state.wireframe, shininess: 10 } ),
+  ]) ;
   mesh.rotateX(Math.PI/2);
   mesh.scale.copy(scale);
 
-  mesh.name = "CarPart";
-  mesh.state = {
-    basicMaterial: BasicMaterial,
-    lambertMaterial: LambertMaterial,
-    phongMaterial: PhongMaterial,
-  }
   return mesh;
 }
 
@@ -106,36 +100,28 @@ const addWheels = () => {
 const addWheelAxis = () => {
   const WheelAxis = new Group();
   var geometry1 = new CylinderGeometry(0.2, 0.2, 3.5, 10);
-  var BasicMaterial1 = new MeshBasicMaterial( { color: 0x222222, wireframe: true } );
-  var LambertMaterial1 = new MeshLambertMaterial( { color: 0x222222, wireframe: true } );
-  var PhongMaterial1 = new MeshPhongMaterial( { color: 0x222222, wireframe: true } );
-  var mesh1 = new Mesh( geometry1, PhongMaterial1 ) ;
+  var materialArgs = {
+    color: 0x222222,
+    wireframe: window.game.state.wireframe,
+  };
+  var mesh1 = new Mesh(geometry1, [
+    new MeshBasicMaterial(materialArgs),
+    new MeshLambertMaterial(materialArgs),
+    new MeshPhongMaterial(materialArgs),
+  ]) ;
 
   var geometry2 = new CylinderGeometry(0.3, 0.3, 5.5, 10);
-  var BasicMaterial2 = new MeshBasicMaterial( { color: 0x222222, wireframe: true } );
-  var LambertMaterial2 = new MeshLambertMaterial( { color: 0x222222, wireframe: true } );
-  var PhongMaterial2 = new MeshPhongMaterial( { color: 0x222222, wireframe: true } );
-  var mesh2 = new Mesh( geometry2, PhongMaterial2 ) ;
+  var mesh2 = new Mesh(geometry2, [
+    new MeshBasicMaterial(materialArgs),
+    new MeshLambertMaterial(materialArgs),
+    new MeshPhongMaterial(materialArgs),
+  ]) ;
 
   mesh1.rotateX(Math.PI/2);
   mesh1.position.set(-6, 1.9, 0);
 
-  mesh1.name = "CarPart";
-  mesh1.state = {
-    basicMaterial: BasicMaterial1,
-    lambertMaterial: LambertMaterial1,
-    phongMaterial: PhongMaterial1,
-  }
-
   mesh2.rotateX(Math.PI/2);
   mesh2.position.set(-2, 2.2, 0);
-
-  mesh2.name = "CarPart";
-  mesh2.state = {
-    basicMaterial: BasicMaterial2,
-    lambertMaterial: LambertMaterial2,
-    phongMaterial: PhongMaterial2,
-  }
 
   WheelAxis.add(mesh1, mesh2);
   WheelAxis.rotateY(Math.PI/2);
@@ -145,34 +131,40 @@ const addWheelAxis = () => {
 const addWindowDome = () => {
   const windowDome = new Group();
   var geometry = new SphereGeometry(1, 10, 10, 0, Math.PI);
-  var BasicMaterial = new MeshBasicMaterial( { color: 0xacacff, wireframe: true } );
-  var LambertMaterial = new MeshLambertMaterial( { color: 0xacacff, wireframe: true } );
-  var PhongMaterial = new MeshPhongMaterial( { color: 0xacacff, wireframe: true, shininess: 100 } );
-  var mesh = new Mesh( geometry, PhongMaterial ) ;
+  var mesh = new Mesh(geometry, [
+    new MeshBasicMaterial( { color: 0xacacff, wireframe: window.game.state.wireframe } ),
+    new MeshLambertMaterial( { color: 0xacacff, wireframe: window.game.state.wireframe } ),
+    new MeshPhongMaterial( { color: 0xacacff, wireframe: window.game.state.wireframe, shininess: 100 } ),
+  ]) ;
+
   mesh.position.set(-3,3.1,0);
   mesh.rotateX(-Math.PI/2);
   windowDome.add(mesh);
   windowDome.rotateY(Math.PI/2);
 
-  mesh.name = "CarPart";
-  mesh.state = {
-    basicMaterial: BasicMaterial,
-    lambertMaterial: LambertMaterial,
-    phongMaterial: PhongMaterial,
-  }
   return windowDome;
 }
 
 const addTeeth = () => {
   const teeth = new Group();
   var geometry4 = new BoxGeometry(0.1, 0.5, 0.4, 3, 3);
-  var material4 = new MeshLambertMaterial( { color: 0xeeeeee, wireframe: true} );
-  var mesh4 = new Mesh( geometry4, material4 ) ;
+  var materialArgs = {
+    color: 0xeeeeee,
+    wireframe: window.game.state.wireframe,
+  };
+  var mesh4 = new Mesh(geometry4, [
+    new MeshBasicMaterial(materialArgs),
+    new MeshLambertMaterial(materialArgs),
+    new MeshPhongMaterial(materialArgs),
+  ]);
   mesh4.position.set(-8.15, 1.5, -0.25);
 
   var geometry5 = new BoxGeometry(0.1, 0.5, 0.4, 3, 3);
-  var material5 = new MeshLambertMaterial( { color: 0xeeeeee, wireframe: true} );
-  var mesh5 = new Mesh( geometry5, material5 ) ;
+  var mesh5 = new Mesh(geometry1, [
+    new MeshBasicMaterial(materialArgs),
+    new MeshLambertMaterial(materialArgs),
+    new MeshPhongMaterial(materialArgs),
+  ]);
   mesh5.position.set(-8.15, 1.5, 0.25);
 
   teeth.add(mesh4,mesh5);
@@ -185,11 +177,17 @@ const addHeadLight = (x, y, z) => {
   shape1.moveTo(0,0);
   shape1.bezierCurveTo(1.5, 0.5, 2, 2, 2, 4);
 
-  var geometry1 = new LatheGeometry( shape1.extractPoints(5).shape);
-  var BasicMaterial1 = new MeshBasicMaterial( { color: 0xff5300, wireframe: true } );
-  var LambertMaterial1 = new MeshLambertMaterial( { color: 0xff5300, wireframe: true } );
-  var PhongMaterial1 = new MeshPhongMaterial( { color: 0xff5300, wireframe: true } );
-  var mesh1 = new Mesh( geometry1, PhongMaterial1 ) ;
+  var materialArgs = {
+    color: 0xff5300,
+    wireframe: window.game.state.wireframe,
+  };
+  var geometry1 = new LatheGeometry(shape1.extractPoints(5).shape);
+  var mesh1 = new Mesh(geometry1, [
+    new MeshBasicMaterial(materialArgs),
+    new MeshLambertMaterial(materialArgs),
+    new MeshPhongMaterial(materialArgs),
+  ]);
+
   mesh1.position.set(x, y, z);
   mesh1.rotateZ(Math.PI/2);
   mesh1.scale.copy(new Vector3(0.15,0.15,0.15));
@@ -199,11 +197,16 @@ const addHeadLight = (x, y, z) => {
   shape2.moveTo(2,4);
   shape2.bezierCurveTo(1.5, 4.5, 0.5, 4.5, 0, 4);
 
-  var geometry2 = new LatheGeometry( shape2.extractPoints(5).shape);
-  var BasicMaterial2 = new MeshBasicMaterial( { color: 0xffffff, wireframe: true } );
-  var LambertMaterial2 = new MeshLambertMaterial( { color: 0xffffff, wireframe: true } );
-  var PhongMaterial2 = new MeshPhongMaterial( { color: 0xffffff, wireframe: true } );
-  var mesh2 = new Mesh( geometry2, PhongMaterial2 ) ;
+  materialArgs = {
+    color: 0xffffff,
+    wireframe: window.game.state.wireframe,
+  };
+  var geometry2 = new LatheGeometry(shape2.extractPoints(5).shape);
+  var mesh2 = new Mesh(geometry2, [
+    new MeshBasicMaterial(materialArgs),
+    new MeshLambertMaterial(materialArgs),
+    new MeshPhongMaterial(materialArgs),
+  ]);
   mesh2.position.set(x, y, z);
   mesh2.rotateZ(Math.PI/2);
   mesh2.scale.copy(new Vector3(0.15,0.15,0.15));
@@ -211,19 +214,6 @@ const addHeadLight = (x, y, z) => {
 
   headLight.add(mesh1,mesh2);
   headLight.rotateY(Math.PI/2);
-
-  mesh1.name = "CarPart";
-  mesh1.state = {
-    basicMaterial: BasicMaterial1,
-    lambertMaterial: LambertMaterial1,
-    phongMaterial: PhongMaterial1,
-  }
-  mesh2.name = "CarPart";
-  mesh2.state = {
-    basicMaterial: BasicMaterial2,
-    lambertMaterial: LambertMaterial2,
-    phongMaterial: PhongMaterial2,
-  }
 
   return headLight;
 }
@@ -269,28 +259,39 @@ const addExhaustPipe = (side) => {
                                       new Vector3(17, -10, 8)));
 
   var extrudeSettings = {
-  curveSegments:3,
-  steps: 40,
-  amount: 100,
-  bevelEnabled: true,
-  bevelThickness: 1,
-  bevelSize: 1,
-  bevelSegments: 1,
-  extrudePath: path
+    curveSegments:3,
+    steps: 40,
+    amount: 100,
+    bevelEnabled: true,
+    bevelThickness: 1,
+    bevelSize: 1,
+    bevelSegments: 1,
+    extrudePath: path
   };
 
   var geometry = new ExtrudeGeometry( shape, extrudeSettings );
-  if(side===-1){
+  if (side === -1) {
     var tmpGeo = new Geometry().copy(geometry);
-    for (var i = 0; i < tmpGeo.vertices.length; i++) {      
+    for (var i = 0; i < tmpGeo.vertices.length; i++) {
       tmpGeo.vertices[i].z *= -1;
     }
     geometry = tmpGeo;
   }
-  var BasicMaterial = new MeshBasicMaterial( { color: 0xffd700, wireframe: true, side:2 } );
-  var LambertMaterial = new MeshLambertMaterial( { color: 0xffd700, wireframe: true, side:2 } );
-  var PhongMaterial = new MeshPhongMaterial( { color: 0xffd700, wireframe: true, side:2, shininess: 100} );
-  var mesh = new Mesh( geometry, PhongMaterial ) ;
+
+  var materialArgs = {
+    color: 0xffd700,
+    wireframe: window.game.state.wireframe,
+    side: 2
+  };
+  var mesh = new Mesh(geometry, new MeshBasicMaterial(materialArgs));
+
+  mesh.state = {
+    materials: [
+      new MeshBasicMaterial(materialArgs),
+      new MeshLambertMaterial(materialArgs),
+      new MeshPhongMaterial(Object.assign(materialArgs, { shininess: 100 })),
+    ],
+  };
   mesh.geometry.computeVertexNormals();
   mesh.geometry.mergeVertices();
 
@@ -298,12 +299,6 @@ const addExhaustPipe = (side) => {
   mesh.position.set(-6.5, 2.8, 0.5);
   mesh.rotateZ(Math.PI/20);
 
-  mesh.name = "CarPart";
-  mesh.state = {
-    basicMaterial: BasicMaterial,
-    lambertMaterial: LambertMaterial,
-    phongMaterial: PhongMaterial,
-  }
   return mesh
 }
 
@@ -314,20 +309,31 @@ const addExhaustPipes = () => {
   shape.bezierCurveTo(1.5, 4.5, 0.5, 4.5, 0, 4);
 
   var geometry = new LatheGeometry( shape.extractPoints(2).shape);
-  var material = new MeshBasicMaterial( { color: 0x000000, wireframe: true, side:2} );
-  var mesh1 = new Mesh( geometry, material ) ;
+  var materialArgs = {
+    color: 0x000000,
+    wireframe: window.game.state.wireframe,
+    side: 2,
+  };
+  var mesh1 = new Mesh(geometry, [
+    new MeshBasicMaterial(materialArgs),
+    new MeshLambertMaterial(materialArgs),
+    new MeshPhongMaterial(materialArgs),
+  ]);
   mesh1.rotateX(Math.PI/2);
   mesh1.position.set(-3.85, 1.88, 1.46);
   mesh1.scale.copy(new Vector3(0.06,0.06,0.06))
 
   var geometry2 = new LatheGeometry( shape.extractPoints(2).shape);
-  var material2 = new MeshBasicMaterial( { color: 0x000000, wireframe: true, side:2 } );
-  var mesh2 = new Mesh( geometry2, material2 ) ;
+  var mesh2 = new Mesh(geometry, [
+    new MeshBasicMaterial(materialArgs),
+    new MeshLambertMaterial(materialArgs),
+    new MeshPhongMaterial(materialArgs),
+  ]);
   mesh2.rotateX(Math.PI/2);
   mesh2.position.set(-3.86, 1.88, -1.46);
   mesh2.scale.copy(new Vector3(0.06,0.06,0.06))
   mesh2.rotateX(Math.PI);
-  
+
   const exhaustPipeLeft = addExhaustPipe(1);
   const exhaustPipeRight = new Group();
   exhaustPipeRight.add(addExhaustPipe(-1));
@@ -346,20 +352,20 @@ const addExhaustPipes = () => {
 
 const addStump = () => {
   var geometry = new SphereGeometry(1, 30, 2, 0, 6.3, 3, 1.6);
-  var BasicMaterial = new MeshBasicMaterial( { color: 0x00ff00, wireframe: true } );
-  var LambertMaterial = new MeshLambertMaterial( { color: 0x00ff00, wireframe: true } );
-  var PhongMaterial = new MeshPhongMaterial( { color: 0x00ff00, wireframe: true } );
-  var mesh = new Mesh( geometry, PhongMaterial ) ;
+  var materialArgs = {
+    color: 0x00ff00,
+    wireframe: window.game.state.wireframe,
+  };
+  var mesh = new Mesh(geometry, [
+    new MeshBasicMaterial(materialArgs),
+    new MeshLambertMaterial(materialArgs),
+    new MeshPhongMaterial(materialArgs),
+  ]);
+
   mesh.rotateZ(-Math.PI/2);
   mesh.position.set(0,2,-0.55);
   mesh.rotateX(-Math.PI/2);
 
-  mesh.name = "CarPart";
-  mesh.state = {
-    basicMaterial: BasicMaterial,
-    lambertMaterial: LambertMaterial,
-    phongMaterial: PhongMaterial,
-  }
   return mesh;
 }
 
@@ -372,52 +378,37 @@ const addDomeRing = () => {
   rectangle.lineTo(3.6,0);
 
   var geometry = new LatheGeometry( rectangle.extractPoints(10).shape,20);
-  var BasicMaterial = new MeshBasicMaterial( { color: 0xffd700, wireframe: true } );
-  var LambertMaterial = new MeshLambertMaterial( { color: 0xffd700, wireframe: true } );
-  var PhongMaterial = new MeshPhongMaterial( { color: 0xffd700, wireframe: true, shininess: 100 } );
-  var mesh = new Mesh( geometry, PhongMaterial ) ;
+  var mesh = new Mesh(geometry, [
+    new MeshBasicMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe } ),
+    new MeshLambertMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe } ),
+    new MeshPhongMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe, shininess: 100 } ),
+  ]);
 
   var geometry1 = new BoxGeometry( 1, 1, 4);
-  var BasicMaterial1 = new MeshBasicMaterial( { color: 0xffd700, wireframe: true } );
-  var LambertMaterial1 = new MeshLambertMaterial( { color: 0xffd700, wireframe: true } );
-  var PhongMaterial1 = new MeshPhongMaterial( { color: 0xffd700, wireframe: true, shininess: 100 } );
-  var mesh1 = new Mesh( geometry1, PhongMaterial1 ) ;
+  var mesh1 = new Mesh(geometry1, [
+    new MeshBasicMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe } ),
+    new MeshLambertMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe } ),
+    new MeshPhongMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe, shininess: 100 } ),
+  ]);
 
   var geometry2 = new LatheGeometry( rectangle.extractPoints(10).shape,20);
-  var BasicMaterial2 = new MeshBasicMaterial( { color: 0xffd700, wireframe: true } );
-  var LambertMaterial2 = new MeshLambertMaterial( { color: 0xffd700, wireframe: true } );
-  var PhongMaterial2 = new MeshPhongMaterial( { color: 0xffd700, wireframe: true, shininess: 100 } );
-  var mesh2 = new Mesh( geometry2, PhongMaterial2 ) ;
+  var mesh2 = new Mesh(geometry2, [
+    new MeshBasicMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe } ),
+    new MeshLambertMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe } ),
+    new MeshPhongMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe, shininess: 100 } ),
+  ]);
 
   mesh.scale.copy(new Vector3(0.25,0.25,0.25));
   mesh.position.set(0,3.2,3);
   mesh.rotateX(Math.PI/14);
-  mesh.name = "CarPart";
-  mesh.state = {
-    basicMaterial: BasicMaterial,
-    lambertMaterial: LambertMaterial,
-    phongMaterial: PhongMaterial,
-  }
 
   mesh1.scale.copy(new Vector3(0.25,0.25,0.25));
   mesh1.position.set(0,3.468,1.6);
   mesh1.rotateX(-Math.PI/14);
-  mesh1.name = "CarPart";
-  mesh1.state = {
-    basicMaterial: BasicMaterial,
-    lambertMaterial: LambertMaterial,
-    phongMaterial: PhongMaterial,
-  }
 
   mesh2.scale.copy(new Vector3(0.36,0.29,0.36));
   mesh2.rotateX(-Math.PI/2);
   mesh2.position.set(0,2.1,1.3);
-  mesh2.name = "CarPart";
-  mesh2.state = {
-    basicMaterial: BasicMaterial,
-    lambertMaterial: LambertMaterial,
-    phongMaterial: PhongMaterial,
-  }
 
   const group = new Group();
   group.add(mesh1,mesh,mesh2);
