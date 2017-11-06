@@ -32,7 +32,7 @@ class Game {
         'MeshLambertMaterial',
         'MeshPhongMaterial',
       ],
-      currentMaterial: 'MeshLambertMaterial',
+      currentMaterial: 'MeshPhongMaterial',
     };
   }
 

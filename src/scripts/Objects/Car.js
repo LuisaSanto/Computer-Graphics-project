@@ -152,19 +152,25 @@ const addTeeth = () => {
     color: 0xeeeeee,
     wireframe: window.game.state.wireframe,
   };
-  var mesh4 = new Mesh(geometry4, [
-    new MeshBasicMaterial(materialArgs),
-    new MeshLambertMaterial(materialArgs),
-    new MeshPhongMaterial(materialArgs),
-  ]);
+  var mesh4 = new Mesh(geometry4, new MeshBasicMaterial(materialArgs));
+  mesh4.state = {
+    materials: [
+      new MeshBasicMaterial(materialArgs),
+      new MeshLambertMaterial(materialArgs),
+      new MeshPhongMaterial(materialArgs),
+    ],
+  }
   mesh4.position.set(-8.15, 1.5, -0.25);
 
   var geometry5 = new BoxGeometry(0.1, 0.5, 0.4, 3, 3);
-  var mesh5 = new Mesh(geometry1, [
-    new MeshBasicMaterial(materialArgs),
-    new MeshLambertMaterial(materialArgs),
-    new MeshPhongMaterial(materialArgs),
-  ]);
+  var mesh5 = new Mesh(geometry1, new MeshBasicMaterial(materialArgs));
+  mesh5.state = {
+    materials: [
+      new MeshBasicMaterial(materialArgs),
+      new MeshLambertMaterial(materialArgs),
+      new MeshPhongMaterial(materialArgs),
+    ],
+  }
   mesh5.position.set(-8.15, 1.5, 0.25);
 
   teeth.add(mesh4,mesh5);
@@ -400,11 +406,14 @@ const addDomeRing = () => {
   ]);
 
   var geometry1 = new BoxGeometry( 1, 1, 4);
-  var mesh1 = new Mesh(geometry1, [
-    new MeshBasicMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe } ),
-    new MeshLambertMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe } ),
-    new MeshPhongMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe, shininess: 100 } ),
-  ]);
+  var mesh1 = new Mesh(geometry1, new MeshBasicMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe } ));
+  mesh1.state = {
+    materials: [
+      new MeshBasicMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe } ),
+      new MeshLambertMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe } ),
+      new MeshPhongMaterial( { color: 0xffd700, wireframe: window.game.state.wireframe, shininess: 100 } ),
+    ],
+  }
 
   var geometry2 = new LatheGeometry( rectangle.extractPoints(10).shape,20);
   var mesh2 = new Mesh(geometry2, [
