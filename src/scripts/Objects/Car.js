@@ -376,6 +376,7 @@ const addStump = () => {
   var materialArgs = {
     color: 0x00ff00,
     wireframe: window.game.state.wireframe,
+    side: 2,
   };
   var mesh = new Mesh(geometry, [
     new MeshBasicMaterial(materialArgs),
