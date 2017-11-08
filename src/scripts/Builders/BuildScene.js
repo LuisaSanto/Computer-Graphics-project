@@ -13,7 +13,7 @@ class BuildScene {
     game.scene.add(
       Table(0, 0, 0),
       Car(
-        new Vector3(0, 0, 25), // Car initial position.
+        new Vector3(0, .5, 25), // Car initial position.
         new Vector3(0.8, 0.8, 0.8) // Car initial scale.
       ),
       Track(0, 0, 0),

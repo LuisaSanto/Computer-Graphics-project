@@ -71,7 +71,7 @@ const cheerioCollision = (reference) => {
 		reference.state.speed = reference.state.speed*0.8;
 
 		if(target.state.speed < 2){
-			target.state.speed = 2;
+			target.state.speed = 0;
 		}
 		target.state.speed = target.state.speed*0.8;
 	});
