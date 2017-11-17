@@ -14,8 +14,11 @@ import {
   CurvePath,
   CubicBezierCurve3,
   ExtrudeGeometry,
-  Geometry
+  Geometry,
+  Object3D,
 } from 'three';
+
+import SpotLight from './SpotLight';
 
 const addBody = () => {
   var body = new Group();
@@ -47,7 +50,7 @@ const addBody = () => {
 
 const wheelMesh = (scale) => {
   var rectangle = new Shape();
-  rectangle.moveTo(1,0);
+  rectangle .moveTo(1,0);
   rectangle.lineTo(3,0);
   rectangle.lineTo(3,3);
   rectangle.lineTo(1,3);
@@ -134,7 +137,7 @@ const addWindowDome = () => {
   var mesh = new Mesh(geometry, [
     new MeshBasicMaterial( { color: 0xacacff, wireframe: window.game.state.wireframe } ),
     new MeshLambertMaterial( { color: 0xacacff, wireframe: window.game.state.wireframe } ),
-    new MeshPhongMaterial( { color: 0xacacff, wireframe: window.game.state.wireframe, shininess: 100 } ),
+    new MeshPhongMaterial( { color: 0xacacff,emissive:0x404040, wireframe: window.game.state.wireframe, shininess: 100 } ),
   ]) ;
 
   mesh.position.set(-3,3.1,0);
@@ -440,6 +443,19 @@ const addDomeRing = () => {
   return group;
 }
 
+const addSpotlights = () => {
+  var group = new Group();
+  var spotlight1 = SpotLight(0.8, 2, 7.5);
+  var spotlight2 = SpotLight(-0.8, 2, 7.5);
+  var targetObject = new Object3D();
+  targetObject.position.set(0.9, 1, 100);
+  var targetObject2 = new Object3D();
+  targetObject2.position.set(-0.9, 1, 100);
+  spotlight1.target = targetObject;
+  spotlight2.target = targetObject2;
+  group.add(spotlight1, spotlight1.target, spotlight2, spotlight2.target);
+  return group;
+}
 /**
  * Create car on given position.
  *
@@ -472,7 +488,8 @@ export default (position, scale = new Vector3(0.7, 0.7, 0.7)) => {
     addHeadLights(),
     addExhaustPipes(),
     addStump(),
-    addDomeRing()
+    addDomeRing(),
+    addSpotlights(),
   );
 
   car.rotateY(-Math.PI/2);

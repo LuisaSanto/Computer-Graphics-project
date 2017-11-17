@@ -19,7 +19,11 @@ const addTableTop = (group, width, height, x, y, z) => {
     materials: [
       new MeshBasicMaterial(materialArgs),
       new MeshLambertMaterial(materialArgs),
-      new MeshPhongMaterial(materialArgs),
+      new MeshPhongMaterial({
+        color: 0xa66829,
+        wireframe: window.game.state.wireframe,
+        shininess:10,
+      }),
     ],
   }
 

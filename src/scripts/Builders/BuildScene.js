@@ -1,4 +1,4 @@
-import { AxisHelper, Vector3 } from 'three';
+import { AxisHelper, Vector3, AmbientLight} from 'three';
 
 import Oranges from './../Objects/Oranges';
 import Butters from './../Objects/Butters';
@@ -28,7 +28,8 @@ class BuildScene {
         new Vector3(0, 12, 20),
         new Vector3(0, 12, -20)
       ]),
-      new Sun()
+      new Sun(),
+      new AmbientLight(0x101010),
     );
   }
 }
