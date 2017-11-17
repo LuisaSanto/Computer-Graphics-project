@@ -6,6 +6,7 @@ import Vehicle from './../Objects/Vehicle';
 import Table from './../Objects/Table';
 import Track from './../Objects/Track';
 import Candles from './../Objects/Candles';
+import PoliceCar from './../Objects/PoliceCar';
 
 class BuildScene {
   static build(game) {
@@ -27,7 +28,8 @@ class BuildScene {
       new Vehicle(
         new Vector3(0, 3, 25), // Car initial position.
         new Vector3(1, 1, 1) // Car initial scale.
-      )
+      ),
+      new PoliceCar()
     );
   }
 }
