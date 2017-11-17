@@ -48,5 +48,9 @@ export default (e) => {
     case 77:
       car.changeMode();
       break;
+    case 83:
+      window.game.state.paused = !window.game.state.paused;
+      document.getElementById('pause-resume').classList.toggle('active');
+      break;
   }
 }

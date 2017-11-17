@@ -29,6 +29,7 @@ class Game {
     this.scene = new Scene();
     this.renderer = new WebGLRenderer;
     this.state = {
+      paused: false,
       wireframe: true,
       table: {
         width: 140,
@@ -51,7 +52,11 @@ class Game {
   }
 
   animate() {
-    const delta = this.clock.getDelta();
+    let delta = this.clock.getDelta();
+
+    if (this.state.paused) {
+      delta = 0;
+    }
 
     detectCollision();
     treatCollision();
