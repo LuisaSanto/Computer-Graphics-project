@@ -9,7 +9,7 @@ import {
   Box3
 } from 'three';
 
-const addCheerio = (group, x, y, z) => {
+const addCheerio = (group, position) => {
 	const AABB = new Box3();
   const geometry = new TorusGeometry(0.75, 0.3, 5, 20);
   const materialArgs = {
@@ -22,19 +22,25 @@ const addCheerio = (group, x, y, z) => {
     new MeshPhongMaterial(materialArgs),
   ]);
 
-	const mov = new Vector3();
-	const position = new Vector3(x, y-0.5, z);
-
-	cheerio.name = 'cheerio';
-	cheerio.position.copy(position);
-	cheerio.rotation.set(Math.PI/2,0,0);
-	cheerio.state = {
-		boundingBox: AABB,
-		speed: 0,
-		mov: mov,
+	cheerio.userData = {
+    boundingBox: AABB,
+    acceleration: 0,
+    speed: 0,
+    drag: 0.05,
+		dof: new Vector3(1, 0, 0),
 		collision: [],
 		initialPosition: position,
 	};
+	cheerio.name = 'cheerio';
+	cheerio.position.copy(position);
+  cheerio.rotation.set(Math.PI/2,0,0);
+
+  cheerio.reset = function() {
+    this.userData.speed = 0;
+    this.userData.dof = new Vector3();
+    this.position.copy(this.userData.initialPosition);
+    this.userData.boundingBox.setFromObject(this);
+  }
 
 	AABB.setFromObject(cheerio);
 
@@ -52,7 +58,7 @@ const createSemiSphere = (group, x, y, z, radius, startingAngle, stepAngle, zSca
 	}
 
 	while (theta <= final_theta) {
-		addCheerio(group, newX, y, newZ);
+		addCheerio(group, new Vector3(newX, y, newZ));
 		theta+=stepAngle;
 		newX=radius*Math.cos(theta)+x;
 		newZ=radius*Math.sin(theta)*zScale;
@@ -64,7 +70,7 @@ const createLine = (group, x, y, z, length, spacing) => {
 	var max = x + length;
 
 	while(newX < max){
-		addCheerio(group, newX, y, z);
+		addCheerio(group, new Vector3(newX, y, z));
 		newX+=spacing;
 	}
 }
@@ -81,6 +87,6 @@ export default (x, y, z) => {
 	createSemiSphere(track, -30, 2, 0, 15, Math.PI/2, Math.PI/6, 1);
 	createSemiSphere(track, 30, 2, 0, 15, 3*Math.PI/2, Math.PI/7, 1);
 	createLine(track, -30, 2, -15, 60, 6);
-	createLine(track, -30, 2, 15, 60, 6);
+  createLine(track, -30, 2, 15, 60, 6);
 	return track;
 }

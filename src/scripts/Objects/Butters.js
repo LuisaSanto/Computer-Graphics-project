@@ -4,6 +4,7 @@ import {
   Group,
   Mesh,
   MeshLambertMaterial,
+  Vector3,
   MeshPhongMaterial,
   MeshBasicMaterial
 } from 'three';
@@ -22,17 +23,14 @@ class Butters extends Group {
       wireframe: window.game.state.wireframe,
     };
     const butter = new Mesh(geometry, new MeshBasicMaterial(materialArgs));
-
     const safe_x = 120;
     const safe_z = 80;
-    const AABB = new Box3();
 
-    butter.state = {
+    butter.userData = {
       collision: [],
-      forward: false,
-      reverse: false,
-      right: false,
-      left: false,
+      dof: new Vector3(),
+      isRotating: false,
+      rotationDir: 0,
       materials: [
         new MeshBasicMaterial(materialArgs),
         new MeshLambertMaterial(materialArgs),
@@ -50,9 +48,7 @@ class Butters extends Group {
         Math.random() * safe_z - safe_z/2
       );
 
-      newButter.state = Object.assign(butter.state, {
-        boundingBox: AABB.setFromObject(newButter).clone(),
-      });
+      newButter.userData.boundingBox = new Box3().setFromObject(newButter);
 
       this.add(newButter);
     }

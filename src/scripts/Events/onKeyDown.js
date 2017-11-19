@@ -1,34 +1,37 @@
 import { Mesh, MeshBasicMaterial, MeshPhongMaterial} from 'three';
 
 export default (e) => {
-  const scene = window.game.scene;
+  const game = window.game;
+  const scene = game.scene;
   const car = scene.getObjectByName('car');
   const sun = scene.getObjectByName('sun');
 
   switch(e.keyCode) {
     case 37: // Left arrow
-      car.state.left = true;
+      car.userData.isRotating = true;
+      car.userData.rotationDir = 1;
       break;
     case 38: // Top arrow
-      car.state.forward = true;
+      car.userData.acceleration = car.userData.baseAcceleration;
       break;
     case 39: // Right
-      car.state.right = true;
-      break;
+      car.userData.isRotating = true;
+      car.userData.rotationDir = -1;
+    break;
     case 40: // Down arrow
-      car.state.reverse = true;
+      car.userData.acceleration = -car.userData.baseAcceleration;
       break;
     case 49: // 1
-      window.game.state.currentCamera = window.game.cameras.orthogonal;
+      game.state.currentCamera = game.cameras.orthogonal;
       break;
     case 50: // 2
-      window.game.state.currentCamera = window.game.cameras.perspective;
+      game.state.currentCamera = game.cameras.perspective;
       break;
     case 51: // 3
-      window.game.state.currentCamera = window.game.cameras.thirdPerson;
+      game.state.currentCamera = game.cameras.thirdPerson;
       break;
     case 65: // a
-      window.game.state.wireframe = !window.game.state.wireframe;
+      game.state.wireframe = !game.state.wireframe;
       scene.traverseVisible((node) => {
         if (node instanceof Mesh) {
           if (node.name === 'rim') {
@@ -37,7 +40,7 @@ export default (e) => {
 
           if (node.material.length > 1) {
             node.material.forEach((material) => {
-              material.wireframe = window.game.state.wireframe;
+              material.wireframe = game.state.wireframe;
             });
             return;
           }
@@ -48,32 +51,31 @@ export default (e) => {
             node.state.materials.length > 1
           ) {
             node.state.materials.forEach((material) => {
-              material.wireframe = window.game.state.wireframe;
+              material.wireframe = game.state.wireframe;
             });
             return;
           }
 
-          node.material.wireframe = window.game.state.wireframe;
+          node.material.wireframe = game.state.wireframe;
         }
       });
       break;
     case 67: // c
-      window.game.scene.getObjectByName('candles').children.forEach((vela) => {
-        if (vela.intensity === 0) {
-          vela.intensity = 2;
+      game.scene.getObjectByName('candles').children.forEach((candle) => {
+        if (candle.intensity === 0) {
+          candle.intensity = 2;
         } else {
-          vela.intensity = 0;
+          candle.intensity = 0;
         }
       });
-      break;
-    case 71: //g
-      if (window.game.state.light) {
-        if (window.game.state.currentMaterial === 'MeshLambertMaterial') {
-          window.game.state.currentMaterial = 'MeshPhongMaterial';
+    case 71: // g
+      if (game.state.light) {
+        if (game.state.currentMaterial === 'MeshLambertMaterial') {
+          game.state.currentMaterial = 'MeshPhongMaterial';
         } else {
-          window.game.state.currentMaterial = 'MeshLambertMaterial';
+          game.state.currentMaterial = 'MeshLambertMaterial';
         }
-        window.game.changeMaterials();
+        game.changeMaterials();
       }
       break;
     case 78: // n
@@ -84,11 +86,25 @@ export default (e) => {
       }
       break;
     case 76: // l
-      window.game.state.light = !window.game.state.light;
-      if (window.game.state.light) {
-        window.game.changeMaterials();
+      game.state.light = !game.state.light;
+      if (game.state.light) {
+        game.changeMaterials();
       } else {
-        window.game.changeMaterials('MeshBasicMaterial');
+        game.changeMaterials('MeshBasicMaterial');
+      }
+      break;
+    case 77: // m
+      car.changeMode();
+      break;
+    case 82: // r
+      game.reload();
+      break;
+    case 83: // s
+      game.state.paused = !game.state.paused;
+      if (game.state.paused) {
+        game.overlay.displayGamePaused();
+      } else {
+        game.overlay.toggleMessageBoard();
       }
       break;
   }

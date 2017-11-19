@@ -3,16 +3,16 @@ export default (e) => {
 
   switch(e.keyCode) {
     case 37: // Left arrow
-      car.state.left = false;
+      car.userData.isRotating = false;
       break;
     case 38: // Top arrow
-      car.state.forward = false;
+      car.userData.acceleration = 0;
       break;
     case 39: // Right
-      car.state.right = false;
+      car.userData.isRotating = false;
       break;
     case 40: // Down arrow
-      car.state.reverse = false;
+      car.userData.acceleration = 0;
       break;
   }
 }

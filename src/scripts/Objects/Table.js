@@ -1,6 +1,7 @@
 import {
   Group,
   BoxGeometry,
+  Box3,
   Mesh,
   MeshBasicMaterial,
   MeshLambertMaterial,
@@ -11,10 +12,10 @@ import {
 } from 'three';
 
 const addTableTop = (group, width, height, x, y, z) => {
-  var texture = new TextureLoader().load("../../../public/tablecloth.jpg");
+  var texture = new TextureLoader().load('public/images/tablecloth.jpg');
   texture.wrapS = RepeatWrapping;
   texture.wrapT = RepeatWrapping;
-  texture.repeat.set( 6, 6 );
+  texture.repeat.set(14, 10); // Bases on the ratio of the table.
 
   const geometry = new BoxGeometry(width, 2, height, 25, 2, 25);
   const materialArgs = {
@@ -74,6 +75,7 @@ export default (x, y, z) => {
 
   table.position.set(x, y, z);
   table.name = 'table';
+  table.userData.boundingBox = new Box3().setFromObject(table);
 
   return table;
 }
