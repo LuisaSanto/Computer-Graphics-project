@@ -4,10 +4,18 @@ import {
   Mesh,
   MeshBasicMaterial,
   MeshLambertMaterial,
-  MeshPhongMaterial
+  MeshPhongMaterial,
+  Texture,
+  TextureLoader,
+  RepeatWrapping
 } from 'three';
 
 const addTableTop = (group, width, height, x, y, z) => {
+  var texture = new TextureLoader().load("../../../public/tablecloth.jpg");
+  texture.wrapS = RepeatWrapping;
+  texture.wrapT = RepeatWrapping;
+  texture.repeat.set( 6, 6 );
+
   const geometry = new BoxGeometry(width, 2, height, 25, 2, 25);
   const materialArgs = {
     color: 0xa66829,
@@ -23,6 +31,7 @@ const addTableTop = (group, width, height, x, y, z) => {
         color: 0xa66829,
         wireframe: window.game.state.wireframe,
         shininess:10,
+        map: texture,
       }),
     ],
   }
