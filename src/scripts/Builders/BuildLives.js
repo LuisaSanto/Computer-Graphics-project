@@ -2,7 +2,11 @@ import {
   AxisHelper,
   Scene,
   Vector3,
-  WebGLRenderer
+  WebGLRenderer,
+  Group,
+  SphereGeometry,
+  MeshBasicMaterial,
+  Mesh
 } from 'three';
 
 import Vehicle from './../Objects/Vehicle';
@@ -11,12 +15,12 @@ import BuildCameras from './BuildCameras';
 
 class BuildLives {
   static build(game) {
-    const car = new Vehicle(
-      new Vector3(0, 0, -50), // Car initial position.
-      new Vector3(1, 1, 1) // Car initial scale.
-    );
-    car.name = 'lives';
-    game.state.currentCamera.add(car);
+    for (let i = 0; i < 5; i++) {
+      game.state.currentCamera.add(new Vehicle(
+        new Vector3(10, 10, -20),
+        new Vector3(.25, .25, .25)
+      ));
+    }
   }
 }
 

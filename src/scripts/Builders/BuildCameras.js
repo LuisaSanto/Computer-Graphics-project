@@ -43,6 +43,7 @@ class BuildCameras {
       ),
     };
     game.state.currentCamera = game.cameras.perspective;
+    game.scene.add(game.state.currentCamera);
   }
 }
 
