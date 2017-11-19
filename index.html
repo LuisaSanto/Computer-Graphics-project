@@ -42,41 +42,11 @@
 				left: 50%;
 				transform-origin: 0 3px;
 			}
-
-      #pause-resume {
-        align-items: center;
-        background-color: #000;
-        border: 2px solid green;
-        color: white;
-        display: none;
-        flex-direction: column;
-        font-family: sans-serif;
-        height: 50%;
-        justify-content: center;
-        left: 50%;
-        max-height: 300px;
-        max-width: 400px;
-        position: absolute;
-        text-align: center;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 50%;
-      }
-      #pause-resume.active {
-        display: flex;
-      }
-      #pause-resume code {
-        color: pink;
-      }
 		</style>
 	</head>
 	<body>
 		<div id="controls" class="controls">
 			<div class="control"><span id="speed" class="arrow"></span></div>
-    </div>
-    <div id="pause-resume">
-      <h1>Paused</h1>
-      <p>Press <code>S</code> to resume the game.</p>
     </div>
 
 		<script src="public/app.js"></script>

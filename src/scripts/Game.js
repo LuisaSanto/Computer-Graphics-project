@@ -52,9 +52,6 @@ class Game {
 
     BuildCameras.build(this);
 
-    // this.texture = new TextureLoader().load('/public/bg.jpg');
-    // this.scene.background = this.texture;
-
     this.changeMaterials();
 
     document.body.appendChild(this.renderer.domElement);
@@ -68,6 +65,7 @@ class Game {
   animate() {
     let delta = this.clock.getDelta();
 
+    // "Burn" frames when paused.
     if (this.state.paused) {
       delta = 0;
     }
@@ -90,7 +88,25 @@ class Game {
     window.requestAnimationFrame(this.animate.bind(this));
   }
 
+  reload() {
+    this.overlay.getObjectByName('lives').children.forEach((live) => {
+      live.visible = true;
+    });
+    this.overlay.toggleMessageBoard();
+    this.clock.start();
+  }
+
   restart() {
+    this.resetCar();
+    this.resetButters();
+    this.resetCheerios();
+    this.maybeEndGame();
+  }
+
+  /**
+   * Reset car.
+   */
+  resetCar() {
     const car = this.scene.getObjectByName('car');
     car.setRotationFromAxisAngle(new Vector3(0, 1, 0), 0);
     car.position.copy(car.userData.initialPosition);
@@ -102,18 +118,24 @@ class Game {
       speed: 0,
       vuv: new Vector3(0, 1, 0),
     });
-    this.clock.stop();
-    this.clock.start();
+  }
 
-    // Reset butters.
+  /**
+   * Reset butter colisions.
+   */
+  resetButters() {
     const butters = this.scene.getObjectByName('butters');
     butters.children.forEach((butter) => {
       butter.userData = Object.assign(butter.userData, {
         collision: [],
       });
     });
+  }
 
-    // Reposition cheerios.
+  /**
+   * Reset cheerio positions.
+   */
+  resetCheerios() {
     const cheerios = this.scene.getObjectByName('track');
     cheerios.children.forEach((cheerio) => {
       cheerio.userData.speed = 0;
@@ -123,6 +145,48 @@ class Game {
     });
   }
 
+  /**
+   * Determine if the game should be ended.
+   */
+  maybeEndGame() {
+    this.clock.stop();
+
+    // Take one live from the player.
+    const isGameOver = this.oneDown();
+
+    if (isGameOver) {
+      this.gameOver();
+      return;
+    }
+
+    this.clock.start();
+  }
+
+  /**
+   * Remove on live from the player.
+   * @return {boolean} True if is game over, false otherwise.
+   */
+  oneDown() {
+    const lives = this.overlay.getObjectByName('lives');
+    for (let i = 0; i < lives.children.length; i++) {
+      if (lives.children[i].visible) {
+        lives.children[i].visible = false;
+        return i == lives.children.length - 1;
+      }
+    }
+  }
+
+  /**
+   * Game Over.
+   */
+  gameOver() {
+    this.overlay.displayGameOver();
+  }
+
+  /**
+   * Change vehicle body.
+   * Cycles to the next body available.
+   */
   changeVehicle() {
     if (this.userData.vehicle = 'car') {
       this.vehicles.motorcycle.position.copy(this.vehicles.car.position);
