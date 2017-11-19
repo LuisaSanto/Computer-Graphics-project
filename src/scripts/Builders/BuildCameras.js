@@ -18,11 +18,12 @@ class BuildCameras {
     return camera;
   }
 
-  static buildThirdPersonCamera(scene) {
+  static buildThirdPersonCamera(scene, position) {
     const car = scene.getObjectByName('car');
     const camera = this.perspective(0, 10, -10, car.position);
+    camera.position.copy(position);
     car.add(camera);
-    camera.lookAt(new Vector3(0, 2, 5));
+    camera.lookAt(new Vector3(0, 2, 0));
     return camera;
   }
 
@@ -32,7 +33,10 @@ class BuildCameras {
         new Vector3(0, 20, 0),
         game.scene.position
       ),
-      thirdPerson: this.buildThirdPersonCamera(game.scene),
+      thirdPerson: this.buildThirdPersonCamera(
+        game.scene,
+        new Vector3(10, 5, 0)
+      ),
       perspective: this.perspective(
         new Vector3(75, 75, 75),
         game.scene.position
