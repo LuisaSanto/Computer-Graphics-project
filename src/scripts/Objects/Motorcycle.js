@@ -16,8 +16,9 @@ import {
 } from 'three';
 
 class Motorcycle extends Group {
-  constructor() {
+  constructor(wireframe) {
     super();
+    this.wireframe = wireframe;
     this.add(
       this.body(),
       this.wheels()

@@ -24,14 +24,14 @@ const addTableTop = (group, width, height, x, y, z) => {
   };
   const top = new Mesh(geometry, new MeshBasicMaterial(materialArgs));
 
-  top.state = {
+  top.userData = {
     materials: [
       new MeshBasicMaterial(materialArgs),
       new MeshLambertMaterial(materialArgs),
       new MeshPhongMaterial({
         color: 0xa66829,
         wireframe: window.game.state.wireframe,
-        shininess:10,
+        shininess: 10,
         map: texture,
       }),
     ],
@@ -49,7 +49,7 @@ const addTableLeg = (group, x, y, z, name) => {
   };
   const leg = new Mesh(geometry, new MeshBasicMaterial(materialArgs));
 
-  leg.state = {
+  leg.userData = {
     materials: [
       new MeshBasicMaterial(materialArgs),
       new MeshLambertMaterial(materialArgs),

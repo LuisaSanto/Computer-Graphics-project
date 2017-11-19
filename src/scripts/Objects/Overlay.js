@@ -24,7 +24,7 @@ class Overlay extends Scene {
     const position = new Vector3(10, 0, -45);
     for (let i = 0; i < 5; i++) {
       position.x += 12;
-      lives.add(new Vehicle(position));
+      lives.add(new Vehicle(position, new Vector3(0.8, 0.8, 0.8), false));
     }
     lives.name = 'lives';
     this.add(lives);

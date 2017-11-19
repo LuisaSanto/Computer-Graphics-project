@@ -46,11 +46,11 @@ export default (e) => {
           }
 
           if (
-            node.state != undefined &&
-            node.state.materials != undefined &&
-            node.state.materials.length > 1
+            node.userData != undefined &&
+            node.userData.materials != undefined &&
+            node.userData.materials.length > 1
           ) {
-            node.state.materials.forEach((material) => {
+            node.userData.materials.forEach((material) => {
               material.wireframe = game.state.wireframe;
             });
             return;
@@ -78,13 +78,6 @@ export default (e) => {
         game.changeMaterials();
       }
       break;
-    case 78: // n
-      if (sun.intensity === 0) {
-        sun.intensity = 1;
-      } else {
-        sun.intensity = 0;
-      }
-      break;
     case 76: // l
       game.state.light = !game.state.light;
       if (game.state.light) {
@@ -95,6 +88,13 @@ export default (e) => {
       break;
     case 77: // m
       car.changeMode();
+      break;
+    case 78: // n
+      if (sun.intensity === 0) {
+        sun.intensity = 1;
+      } else {
+        sun.intensity = 0;
+      }
       break;
     case 82: // r
       game.reload();

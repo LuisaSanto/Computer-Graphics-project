@@ -29,7 +29,7 @@ class Oranges extends Group {
       const newOrange = orange.clone();
 
       // Put back states.
-      newOrange.getObjectByName('leaf').state = orange.getObjectByName('leaf').state;
+      newOrange.getObjectByName('leaf').userData = orange.getObjectByName('leaf').userData;
 
       newOrange.position.set(
         Math.random() * safe_x - safe_x/2,
@@ -87,24 +87,27 @@ class Oranges extends Group {
       color: 0x00ff00,
       wireframe: window.game.state.wireframe,
     };
-    const materials = [
-      new MeshBasicMaterial(materialArgs),
-      new MeshLambertMaterial(materialArgs),
-      new MeshPhongMaterial(materialArgs),
-    ];
     const stick = new Mesh(
       new ConeGeometry(0.1, 1, 5),
-      materials
+      new MeshBasicMaterial(materialArgs)
     );
     const leaf = new Mesh(
       new BoxGeometry(1, .05, 1),
       new MeshBasicMaterial(materialArgs)
     );
 
+    stick.name = 'stick';
+    stick.userData.materials = [
+      new MeshBasicMaterial(materialArgs),
+      new MeshLambertMaterial(materialArgs),
+      new MeshPhongMaterial(materialArgs),
+    ];
     leaf.name = 'leaf';
-    leaf.state = {
-      materials: materials,
-    };
+    leaf.userData.materials = [
+      new MeshBasicMaterial(materialArgs),
+      new MeshLambertMaterial(materialArgs),
+      new MeshPhongMaterial(materialArgs),
+    ];
     stickAndLeaf.add(stick, leaf);
     leaf.position.set(0.5, 0, 0.5);
 

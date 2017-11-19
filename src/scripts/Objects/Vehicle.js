@@ -20,7 +20,7 @@ import OldCar from './OldCar';
 import Motorcycle from './Motorcycle';
 
 class Vehicle extends Group {
-  constructor(position = new Vector3(), scale = new Vector3(1, 1, 1)) {
+  constructor(position = new Vector3(), scale = new Vector3(1, 1, 1), wireframe = window.game.state.wireframe) {
     super();
     this.name = 'car';
     this.userData = {
@@ -43,9 +43,9 @@ class Vehicle extends Group {
       vuv: new Vector3(0, 1, 0),
     };
     this.modes = {
-      carrot: new Car(),
-      old: new OldCar(),
-      motorcycle: new Motorcycle(),
+      carrot: new Car(wireframe),
+      old: new OldCar(wireframe),
+      motorcycle: new Motorcycle(wireframe),
     };
     this.selectMode('carrot');
     this.scale.copy(scale);

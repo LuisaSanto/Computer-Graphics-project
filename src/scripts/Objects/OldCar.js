@@ -14,8 +14,9 @@ import {
 } from 'three';
 
 class OldCar extends Group {
-  constructor() {
+  constructor(wireframe) {
     super();
+    this.wireframe = wireframe;
     this.add(
       this.addBody()
     );

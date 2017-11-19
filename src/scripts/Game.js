@@ -208,9 +208,9 @@ class Game {
         node.material.length == undefined
       ) {
         if (
-          node.state != undefined &&
-          node.state.materials != undefined &&
-          node.state.materials.length > 1
+          node.userData != undefined &&
+          node.userData.materials != undefined &&
+          node.userData.materials.length > 1
         ) {
           this.fallBackMethod(node, name);
           return;
@@ -222,8 +222,8 @@ class Game {
   }
 
   fallBackMethod(obj, name) {
-    obj.state.materials.splice(0, 0, obj.state.materials.splice(this.getNewMaterialIndex(obj.state.materials, name), 1)[0]);
-    obj.material = obj.state.materials[0];
+    obj.userData.materials.splice(0, 0, obj.userData.materials.splice(this.getNewMaterialIndex(obj.userData.materials, name), 1)[0]);
+    obj.material = obj.userData.materials[0];
   }
 
   getNewMaterialIndex(materials, name) {

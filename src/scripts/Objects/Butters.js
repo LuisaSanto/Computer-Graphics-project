@@ -26,17 +26,6 @@ class Butters extends Group {
     const safe_x = 120;
     const safe_z = 80;
 
-    butter.userData = {
-      collision: [],
-      dof: new Vector3(),
-      isRotating: false,
-      rotationDir: 0,
-      materials: [
-        new MeshBasicMaterial(materialArgs),
-        new MeshLambertMaterial(materialArgs),
-        new MeshPhongMaterial(materialArgs),
-      ],
-    }
     butter.name = 'butter';
 
     for (let index = 0; index < amount; index++) {
@@ -48,7 +37,18 @@ class Butters extends Group {
         Math.random() * safe_z - safe_z/2
       );
 
-      newButter.userData.boundingBox = new Box3().setFromObject(newButter);
+      newButter.userData = {
+        boundingBox: new Box3().setFromObject(newButter),
+        collision: [],
+        dof: new Vector3(),
+        isRotating: false,
+        rotationDir: 0,
+        materials: [
+          new MeshBasicMaterial(materialArgs),
+          new MeshLambertMaterial(materialArgs),
+          new MeshPhongMaterial(materialArgs),
+        ],
+      };
 
       this.add(newButter);
     }
