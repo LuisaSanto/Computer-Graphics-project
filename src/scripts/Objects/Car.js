@@ -456,9 +456,9 @@ const addSpotlights = () => {
   var spotlight1 = SpotLight(0.8, 2, 7.5);
   var spotlight2 = SpotLight(-0.8, 2, 7.5);
   var targetObject = new Object3D();
-  targetObject.position.set(0.9, 1, 100);
+  targetObject.position.set(0.9, 0.5, 100);
   var targetObject2 = new Object3D();
-  targetObject2.position.set(-0.9, 1, 100);
+  targetObject2.position.set(-0.9, 0.5, 100);
   spotlight1.target = targetObject;
   spotlight2.target = targetObject2;
   group.add(spotlight1, spotlight1.target, spotlight2, spotlight2.target);
