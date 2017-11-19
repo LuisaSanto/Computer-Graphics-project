@@ -25,10 +25,8 @@ class Butters extends Group {
     const butter = new Mesh(geometry, new MeshBasicMaterial(materialArgs));
     const safe_x = 120;
     const safe_z = 80;
-    const AABB = new Box3();
 
     butter.userData = {
-      boundingBox: AABB,
       collision: [],
       dof: new Vector3(),
       isRotating: false,
@@ -50,9 +48,7 @@ class Butters extends Group {
         Math.random() * safe_z - safe_z/2
       );
 
-      newButter.userData = Object.assign(butter.userData, {
-        boundingBox: AABB.setFromObject(newButter).clone(),
-      });
+      newButter.userData.boundingBox = new Box3().setFromObject(newButter);
 
       this.add(newButter);
     }

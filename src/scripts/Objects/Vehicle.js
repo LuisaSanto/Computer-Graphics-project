@@ -15,6 +15,7 @@ import {
   LatheGeometry
 } from 'three';
 
+import Car from './Car';
 import OldCar from './OldCar';
 import Motorcycle from './Motorcycle';
 
@@ -26,7 +27,7 @@ class Vehicle extends Group {
       acceleration: 0,
       baseAcceleration: 20,
       collision: [],
-      currentMode: 'old',
+      currentMode: 'carrot',
       dof: new Vector3(-1, 0, 0),
       drag: 0.02, // As a percentage of the velocity.
       initialPosition: position,
@@ -42,17 +43,18 @@ class Vehicle extends Group {
       vuv: new Vector3(0, 1, 0),
     };
     this.modes = {
+      carrot: new Car(),
       old: new OldCar(),
       motorcycle: new Motorcycle(),
     };
-    this.selectMode('old');
+    this.selectMode('carrot');
     this.scale.copy(scale);
     this.position.copy(position);
   }
 
   selectMode(mode) {
     this.remove(this.getObjectByName('mode'));
-    this.add( this.modes[mode] );
+    this.add(this.modes[mode]);
   }
 
   changeMode() {
