@@ -3,9 +3,11 @@ import {
   BoxGeometry,
   ConeGeometry,
   Group,
-  SphereGeometry,
-  MeshLambertMaterial,
   Mesh,
+  MeshBasicMaterial,
+  MeshLambertMaterial,
+  MeshPhongMaterial,
+  SphereGeometry,
   Vector3
 } from 'three';
 
@@ -25,6 +27,9 @@ class Oranges extends Group {
 
     for (let index = 0; index < amount; index++) {
       const newOrange = orange.clone();
+
+      // Put back states.
+      newOrange.getObjectByName('leaf').state = orange.getObjectByName('leaf').state;
 
       newOrange.position.set(
         Math.random() * safe_x - safe_x/2,
@@ -52,32 +57,21 @@ class Oranges extends Group {
   }
 
   createTemplateOrange() {
+    const orangeMaterialArgs = {
+      color: 0xcc5300,
+      wireframe: window.game.state.wireframe,
+    };
+    const orangeMaterials = [
+      new MeshBasicMaterial(orangeMaterialArgs),
+      new MeshLambertMaterial(orangeMaterialArgs),
+      new MeshPhongMaterial(orangeMaterialArgs),
+    ];
     const orange = new Mesh(
       new SphereGeometry(2),
-      new MeshLambertMaterial({
-        color: 0xcc5300,
-        wireframe: window.game.state.wireframe,
-      })
+      orangeMaterials
     );
 
-    const stickAndLeaf = new Group();
-    const stick = new Mesh(
-      new ConeGeometry(0.1, 1, 5),
-      new MeshLambertMaterial({
-        color: 0x00ff00,
-        wireframe: window.game.state.wireframe,
-      })
-    );
-    const leaf = new Mesh(
-      new BoxGeometry(1, .05, 1),
-      new MeshLambertMaterial({
-        color: 0x00ff00,
-        wireframe: window.game.state.wireframe,
-      })
-    );
-
-    stickAndLeaf.add(stick, leaf);
-    leaf.position.set(0.5, 0, 0.5);
+    const stickAndLeaf = this.createStickAndLeaf();
 
     orange.name = 'orange';
     orange.add(stickAndLeaf);
@@ -85,6 +79,36 @@ class Oranges extends Group {
     stickAndLeaf.rotateX(Math.PI);
 
     return orange;
+  }
+
+  createStickAndLeaf() {
+    const stickAndLeaf = new Group();
+    const materialArgs = {
+      color: 0x00ff00,
+      wireframe: window.game.state.wireframe,
+    };
+    const materials = [
+      new MeshBasicMaterial(materialArgs),
+      new MeshLambertMaterial(materialArgs),
+      new MeshPhongMaterial(materialArgs),
+    ];
+    const stick = new Mesh(
+      new ConeGeometry(0.1, 1, 5),
+      materials
+    );
+    const leaf = new Mesh(
+      new BoxGeometry(1, .05, 1),
+      new MeshBasicMaterial(materialArgs)
+    );
+
+    leaf.name = 'leaf';
+    leaf.state = {
+      materials: materials,
+    };
+    stickAndLeaf.add(stick, leaf);
+    leaf.position.set(0.5, 0, 0.5);
+
+    return stickAndLeaf;
   }
 }
 export default Oranges;

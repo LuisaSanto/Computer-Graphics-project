@@ -1,11 +1,26 @@
-import { Group, TorusGeometry, MeshLambertMaterial, Mesh, Vector3, Box3 } from 'three';
+import {
+  Group,
+  TorusGeometry,
+  MeshLambertMaterial,
+  MeshPhongMaterial,
+  MeshBasicMaterial,
+  Mesh,
+  Vector3,
+  Box3
+} from 'three';
 
-const addCheerio = (group, x, y, z) => {
+const addCheerio = (group, position) => {
 	const AABB = new Box3();
-	const geometry = new TorusGeometry(0.75, 0.3, 5, 10);
-	const material = new MeshLambertMaterial({color: 0xcccc00,wireframe: true});
-	const cheerio = new Mesh(geometry, material);
-	const position = new Vector3(x, y, z);
+  const geometry = new TorusGeometry(0.75, 0.3, 5, 20);
+  const materialArgs = {
+    color: 0xcccc00,
+    wireframe: window.game.state.wireframe,
+  };
+	const cheerio = new Mesh(geometry, [
+    new MeshBasicMaterial(materialArgs),
+    new MeshLambertMaterial(materialArgs),
+    new MeshPhongMaterial(materialArgs),
+  ]);
 
 	cheerio.userData = {
     boundingBox: AABB,
@@ -43,7 +58,7 @@ const createSemiSphere = (group, x, y, z, radius, startingAngle, stepAngle, zSca
 	}
 
 	while (theta <= final_theta) {
-		addCheerio(group, newX, y, newZ);
+		addCheerio(group, new Vector3(newX, y, newZ));
 		theta+=stepAngle;
 		newX=radius*Math.cos(theta)+x;
 		newZ=radius*Math.sin(theta)*zScale;
@@ -55,7 +70,7 @@ const createLine = (group, x, y, z, length, spacing) => {
 	var max = x + length;
 
 	while(newX < max){
-		addCheerio(group, newX, y, z);
+		addCheerio(group, new Vector3(newX, y, z));
 		newX+=spacing;
 	}
 }
