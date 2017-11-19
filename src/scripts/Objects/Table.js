@@ -1,6 +1,7 @@
 import {
   Group,
   BoxGeometry,
+  Box3,
   Mesh,
   MeshBasicMaterial,
   MeshLambertMaterial,
@@ -61,6 +62,7 @@ export default (x, y, z) => {
 
   table.position.set(x, y, z);
   table.name = 'table';
+  table.userData.boundingBox = new Box3().setFromObject(table);
 
   return table;
 }

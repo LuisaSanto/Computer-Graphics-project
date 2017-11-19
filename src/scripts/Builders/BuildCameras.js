@@ -2,8 +2,27 @@ import { PerspectiveCamera, OrthographicCamera, Vector3 } from 'three';
 
 class BuildCameras {
   static orthogonal(position, lookAt) {
-    const factor = (window.innerWidth * window.innerHeight * 12) / (1275 * 707);
-    const camera = new OrthographicCamera(-window.innerWidth / factor, window.innerWidth / factor, window.innerHeight / factor, -window.innerHeight / factor, -200, 200);
+    const tableBounds = window.game.scene.getObjectByName('table').userData.boundingBox;
+    const buffer = 10;
+    const xAxis = tableBounds.max.x - tableBounds.min.x + buffer;
+    const zAxis = tableBounds.max.z - tableBounds.min.z + buffer;
+    const sceneRatio = xAxis / zAxis;
+    const aspect = window.innerWidth / window.innerHeight;
+    let left, right, top, bottom;
+
+    if (sceneRatio > aspect) {
+      left = -xAxis / 2;
+      right = xAxis / 2;
+      top = xAxis / aspect / 2;
+      bottom = -xAxis / aspect / 2;
+    } else {
+      left = -zAxis * aspect / 2;
+      right = zAxis * aspect / 2;
+      top = zAxis / 2;
+      bottom = -zAxis / 2;
+    }
+
+    const camera = new OrthographicCamera(left, right, top, bottom, -200, 200);
     camera.position.copy(position);
     camera.lookAt(lookAt);
     camera.name = 'camera';
@@ -42,8 +61,7 @@ class BuildCameras {
         game.scene.position
       ),
     };
-    game.state.currentCamera = game.cameras.perspective;
-    game.scene.add(game.state.currentCamera);
+    game.state.currentCamera = game.cameras.orthogonal;
   }
 }
 

@@ -1,4 +1,4 @@
-import { AxisHelper, Vector3 } from 'three';
+import { AxisHelper, Vector3, Scene } from 'three';
 
 import Oranges from './../Objects/Oranges';
 import Butters from './../Objects/Butters';
@@ -9,9 +9,10 @@ import Candles from './../Objects/Candles';
 // import PoliceCar from './../Objects/PoliceCar';
 import Sun from './../Objects/Sun';
 
-class BuildScene {
-  static build(game) {
-    game.scene.add(
+class World extends Scene {
+  constructor() {
+    super();
+    this.add(
       Table(0, 0, 0),
       Track(0, 0, 0),
       new Oranges(3), // Amount.
@@ -35,4 +36,4 @@ class BuildScene {
   }
 }
 
-export default BuildScene;
+export default World;

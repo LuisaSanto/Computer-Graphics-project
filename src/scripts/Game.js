@@ -3,14 +3,14 @@ import {
   Scene,
   Vector3,
   BoxHelper,
-  WebGLRenderer,
   TextureLoader
 } from 'three';
 
 import BuildCameras from './Builders/BuildCameras';
-import BuildScene from './Builders/BuildScene';
-import BuildRenderer from './Builders/BuildRenderer';
-import BuildLives from './Builders/BuildLives';
+
+import Renderer from './Objects/Renderer';
+import Overlay from './Objects/Overlay';
+import World from './Objects/World';
 
 import Movement from './Movement';
 
@@ -28,8 +28,6 @@ import updateControls from './updateControls';
 class Game {
   constructor() {
     this.clock = new Clock();
-    this.scene = new Scene();
-    this.renderer = new WebGLRenderer();
     this.state = {
       paused: false,
       wireframe: true,
@@ -48,10 +46,11 @@ class Game {
   }
 
   init() {
-    BuildScene.build(this);
+    this.renderer = new Renderer();
+    this.scene = new World();
+    this.overlay = new Overlay();
+
     BuildCameras.build(this);
-    BuildRenderer.build(this);
-    BuildLives.build(this);
 
     // this.texture = new TextureLoader().load('/public/bg.jpg');
     // this.scene.background = this.texture;
@@ -82,7 +81,10 @@ class Game {
 
     updateControls();
 
+    this.renderer.clear();
     this.renderer.render(this.scene, this.state.currentCamera);
+    this.renderer.clearDepth();
+    this.renderer.render(this.overlay, this.cameras.orthogonal);
 
     // Recursive call to animate.
     window.requestAnimationFrame(this.animate.bind(this));
