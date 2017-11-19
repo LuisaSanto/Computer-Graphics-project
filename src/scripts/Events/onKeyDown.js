@@ -37,18 +37,18 @@ export default (e) => {
     case 51: // 3
       window.game.state.currentCamera = window.game.cameras.thirdPerson;
       break;
-    case 67: // Turn off pointlights
-      window.game.state.getObjectByName('velas').children.forEach((vela) => {
+    case 67: // C Turn off pointlights
+      window.game.scene.getObjectByName('candles').children.forEach((vela) => {
         if ( vela.intensity === 0 ) {
           vela.intensity = 2;
         } else {
           vela.intensity = 0;
         }
       });
-    case 77:
+    case 77: // M
       car.changeMode();
       break;
-    case 83:
+    case 83: // S
       window.game.state.paused = !window.game.state.paused;
       document.getElementById('pause-resume').classList.toggle('active');
       break;

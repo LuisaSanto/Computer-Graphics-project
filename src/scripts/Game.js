@@ -3,12 +3,14 @@ import {
   Scene,
   Vector3,
   BoxHelper,
-  WebGLRenderer
+  WebGLRenderer,
+  TextureLoader
 } from 'three';
 
 import BuildCameras from './Builders/BuildCameras';
 import BuildScene from './Builders/BuildScene';
 import BuildRenderer from './Builders/BuildRenderer';
+import BuildLives from './Builders/BuildLives';
 
 import Movement from './Movement';
 
@@ -27,7 +29,7 @@ class Game {
   constructor() {
     this.clock = new Clock();
     this.scene = new Scene();
-    this.renderer = new WebGLRenderer;
+    this.renderer = new WebGLRenderer();
     this.state = {
       paused: false,
       wireframe: true,
@@ -42,6 +44,10 @@ class Game {
     BuildScene.build(this);
     BuildCameras.build(this);
     BuildRenderer.build(this);
+    BuildLives.build(this);
+
+    // this.texture = new TextureLoader().load('/public/bg.jpg');
+    // this.scene.background = this.texture;
 
     document.body.appendChild(this.renderer.domElement);
 
