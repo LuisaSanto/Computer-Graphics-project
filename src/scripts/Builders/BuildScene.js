@@ -29,7 +29,7 @@ class BuildScene {
         new Vector3(0, 12, -20)
       ]),
       new Sun(),
-      new AmbientLight(0x101010),
+      //new AmbientLight(0x101010),
     );
   }
 }

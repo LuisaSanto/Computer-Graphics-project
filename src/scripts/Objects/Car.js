@@ -32,6 +32,7 @@ const addBody = () => {
   var materialArgs = {
     color: 0xcc5300,
     wireframe: window.game.state.wireframe,
+    
   };
   var mesh = new Mesh(geometry, [
     new MeshBasicMaterial( materialArgs ),
@@ -60,7 +61,7 @@ const wheelMesh = (scale) => {
   var mesh = new Mesh(geometry, [
     new MeshBasicMaterial( { color: 0x444444, wireframe: window.game.state.wireframe } ),
     new MeshLambertMaterial( { color: 0x444444, wireframe: window.game.state.wireframe } ),
-    new MeshPhongMaterial( { color: 0x444444, wireframe: window.game.state.wireframe, shininess: 10 } ),
+    new MeshPhongMaterial( { color: 0x444444,wireframe: window.game.state.wireframe, shininess: 10 } ),
   ]) ;
   mesh.rotateX(Math.PI/2);
   mesh.scale.copy(scale);
@@ -106,6 +107,7 @@ const addWheelAxis = () => {
   var materialArgs = {
     color: 0x222222,
     wireframe: window.game.state.wireframe,
+    
   };
   var mesh1 = new Mesh(geometry1, [
     new MeshBasicMaterial(materialArgs),
@@ -137,7 +139,7 @@ const addWindowDome = () => {
   var mesh = new Mesh(geometry, [
     new MeshBasicMaterial( { color: 0xacacff, wireframe: window.game.state.wireframe } ),
     new MeshLambertMaterial( { color: 0xacacff, wireframe: window.game.state.wireframe } ),
-    new MeshPhongMaterial( { color: 0xacacff,emissive:0x404040, wireframe: window.game.state.wireframe, shininess: 100 } ),
+    new MeshPhongMaterial( { color: 0xacacff, wireframe: window.game.state.wireframe, shininess: 100 } ),
   ]) ;
 
   mesh.position.set(-3,3.1,0);
@@ -154,6 +156,7 @@ const addTeeth = () => {
   var materialArgs = {
     color: 0xeeeeee,
     wireframe: window.game.state.wireframe,
+    
   };
   var mesh4 = new Mesh(geometry4, new MeshBasicMaterial(materialArgs));
   mesh4.state = {
@@ -189,6 +192,7 @@ const addHeadLight = (x, y, z) => {
   var materialArgs = {
     color: 0xff5300,
     wireframe: window.game.state.wireframe,
+    
   };
   var geometry1 = new LatheGeometry(shape1.extractPoints(5).shape);
   var mesh1 = new Mesh(geometry1, [
@@ -209,6 +213,7 @@ const addHeadLight = (x, y, z) => {
   materialArgs = {
     color: 0xffffff,
     wireframe: window.game.state.wireframe,
+    
   };
   var geometry2 = new LatheGeometry(shape2.extractPoints(5).shape);
   var mesh2 = new Mesh(geometry2, [
@@ -302,7 +307,8 @@ const addExhaustPipe = (side) => {
   var materialArgs = {
     color: 0xffd700,
     wireframe: window.game.state.wireframe,
-    side: 2
+    side: 2,
+    
   };
   var mesh = new Mesh(geometry, new MeshBasicMaterial(materialArgs));
 
@@ -334,6 +340,7 @@ const addExhaustPipes = () => {
     color: 0x000000,
     wireframe: window.game.state.wireframe,
     side: 2,
+    
   };
   var mesh1 = new Mesh(geometry, [
     new MeshBasicMaterial(materialArgs),
@@ -380,6 +387,7 @@ const addStump = () => {
     color: 0x00ff00,
     wireframe: window.game.state.wireframe,
     side: 2,
+
   };
   var mesh = new Mesh(geometry, [
     new MeshBasicMaterial(materialArgs),
