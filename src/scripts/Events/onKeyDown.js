@@ -78,6 +78,15 @@ export default (e) => {
         game.changeMaterials();
       }
       break;
+    case 72: // h
+      car.getObjectByName('headLights').children.forEach((light) => {
+        if (light.intensity === 0) {
+          light.intensity = 1;
+        } else {
+          light.intensity = 0;
+        }
+      });
+      break;
     case 76: // l
       game.state.light = !game.state.light;
       if (game.state.light) {
