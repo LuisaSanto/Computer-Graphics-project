@@ -94,6 +94,7 @@ class Game {
       live.visible = true;
     });
     this.state.gameOver = false;
+    this.scene = new World();
     this.overlay.toggleMessageBoard();
     this.clock.start();
   }
