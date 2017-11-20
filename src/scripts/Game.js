@@ -30,6 +30,7 @@ class Game {
     this.clock = new Clock();
     this.state = {
       paused: false,
+      gameOver: false,
       wireframe: true,
       table: {
         width: 140,
@@ -92,6 +93,7 @@ class Game {
     this.overlay.getObjectByName('lives').children.forEach((live) => {
       live.visible = true;
     });
+    this.state.gameOver = false;
     this.overlay.toggleMessageBoard();
     this.clock.start();
   }
@@ -156,6 +158,7 @@ class Game {
 
     if (isGameOver) {
       this.gameOver();
+      this.state.gameOver = true;
       return;
     }
 
@@ -201,8 +204,8 @@ class Game {
     }
   }
 
-  changeMaterials(name = this.state.currentMaterial) {
-    this.scene.traverse((node) => {
+  changeMaterials(obj = this.scene, name = this.state.currentMaterial) {
+    obj.traverse((node) => {
       if (
         node.material == undefined ||
         node.material.length == undefined
@@ -212,16 +215,20 @@ class Game {
           node.userData.materials != undefined &&
           node.userData.materials.length > 1
         ) {
-          this.fallBackMethod(node, name);
+          this.fallBackchangeObjectMaterial(node, name);
           return;
         }
         return;
       }
-      node.material.splice(0, 0, node.material.splice(this.getNewMaterialIndex(node.material, name), 1)[0]);
+      this.changeObjectMaterial(node, name);
     });
   }
 
-  fallBackMethod(obj, name) {
+  changeObjectMaterial(obj, name) {
+    obj.material.splice(0, 0, obj.material.splice(this.getNewMaterialIndex(obj.material, name), 1)[0]);
+  }
+
+  fallBackchangeObjectMaterial(obj, name) {
     obj.userData.materials.splice(0, 0, obj.userData.materials.splice(this.getNewMaterialIndex(obj.userData.materials, name), 1)[0]);
     obj.material = obj.userData.materials[0];
   }

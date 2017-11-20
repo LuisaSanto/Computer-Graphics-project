@@ -109,6 +109,9 @@ export default (e) => {
       game.reload();
       break;
     case 83: // s
+      if (game.state.gameOver) {
+        break;
+      }
       game.state.paused = !game.state.paused;
       if (game.state.paused) {
         game.overlay.displayGamePaused();

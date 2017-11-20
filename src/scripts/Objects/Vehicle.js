@@ -70,6 +70,7 @@ class Vehicle extends Group {
 
     this.selectMode(modeCodes[0]);
     this.userData.currentMode = modeCodes[0];
+    window.game.changeMaterials(this);
   }
 
   reset() {
