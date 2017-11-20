@@ -18,6 +18,7 @@ import {
 import Car from './Car';
 import OldCar from './OldCar';
 import Motorcycle from './Motorcycle';
+import HeadLight from './HeadLight';
 
 class Vehicle extends Group {
   constructor(position = new Vector3(), scale = new Vector3(1, 1, 1), wireframe = window.game.state.wireframe) {
@@ -47,9 +48,26 @@ class Vehicle extends Group {
       old: new OldCar(wireframe),
       motorcycle: new Motorcycle(wireframe),
     };
+    this.addSpotlights();
     this.selectMode('carrot');
     this.scale.copy(scale);
     this.position.copy(position);
+  }
+
+  addSpotlights() {
+    var group = new Group();
+    var spotlight1 = new HeadLight(new Vector3(0.8, 2, 7.5));
+    var spotlight2 = new HeadLight(new Vector3(-0.8, 2, 7.5));
+    var targetObject = new Group();
+    targetObject.position.set(0.9, 0.5, 100);
+    var targetObject2 = new Group();
+    targetObject2.position.set(-0.9, 0.5, 100);
+    spotlight1.target = targetObject;
+    spotlight2.target = targetObject2;
+    group.add(spotlight1, spotlight1.target, spotlight2, spotlight2.target);
+    group.name = 'headLights';
+    group.rotateY(-Math.PI/2);
+    this.add(group);
   }
 
   selectMode(mode) {

@@ -32,8 +32,7 @@ class Car extends Group {
       this.addHeadLights(),
       this.addExhaustPipes(),
       this.addStump(),
-      this.addDomeRing(),
-      this.addSpotlights()
+      this.addDomeRing()
     );
     this.name = 'mode';
     this.position.x += 2;
@@ -462,21 +461,6 @@ class Car extends Group {
 
     const group = new Group();
     group.add(mesh1, mesh, mesh2);
-    return group;
-  }
-
-  addSpotlights() {
-    var group = new Group();
-    var spotlight1 = new HeadLight(new Vector3(0.8, 2, 7.5));
-    var spotlight2 = new HeadLight(new Vector3(-0.8, 2, 7.5));
-    var targetObject = new Group();
-    targetObject.position.set(0.9, 0.5, 100);
-    var targetObject2 = new Group();
-    targetObject2.position.set(-0.9, 0.5, 100);
-    spotlight1.target = targetObject;
-    spotlight2.target = targetObject2;
-    group.add(spotlight1, spotlight1.target, spotlight2, spotlight2.target);
-    group.name = 'headLights';
     return group;
   }
 }

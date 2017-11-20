@@ -43,6 +43,7 @@ class Game {
         'MeshPhongMaterial',
       ],
       currentMaterial: 'MeshPhongMaterial',
+      oldMaterial: 'MeshPhongMaterial',
     };
   }
 
@@ -95,6 +96,11 @@ class Game {
     });
     this.state.gameOver = false;
     this.scene = new World();
+
+    // TODO: Don't reload camera.
+    BuildCameras.build(this);
+
+    this.changeMaterials(this.scene, this.state.currentMaterial);
     this.overlay.toggleMessageBoard();
     this.clock.start();
   }
