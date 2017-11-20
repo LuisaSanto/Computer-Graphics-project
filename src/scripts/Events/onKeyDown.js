@@ -92,7 +92,7 @@ export default (e) => {
       if (game.state.light) {
         game.changeMaterials();
       } else {
-        game.changeMaterials('MeshBasicMaterial');
+        game.changeMaterials(scene, 'MeshBasicMaterial');
       }
       break;
     case 77: // m
