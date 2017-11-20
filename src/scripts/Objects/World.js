@@ -19,12 +19,12 @@ class World extends Scene {
       new Butters(5), // Amount.
       new Candles([
         // Candle positions.
-        new Vector3(45, 5, 20),
-        new Vector3(-45, 5, 20),
-        new Vector3(-45, 5, -20),
-        new Vector3(45, 5, -20),
-        new Vector3(0, 5, 20),
-        new Vector3(0, 5, -20)
+        new Vector3(45, 10, 20),
+        new Vector3(-45, 10, 20),
+        new Vector3(-45, 10, -20),
+        new Vector3(45, 10, -20),
+        new Vector3(0, 10, 20),
+        new Vector3(0, 10, -20)
       ]),
       new Vehicle(
         new Vector3(0, 3, 25), // Car initial position.

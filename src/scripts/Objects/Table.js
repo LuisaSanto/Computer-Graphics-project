@@ -21,6 +21,7 @@ const addTableTop = (group, width, height, x, y, z) => {
   const materialArgs = {
     color: 0xa66829,
     wireframe: window.game.state.wireframe,
+    map: texture
   };
   const top = new Mesh(geometry, new MeshBasicMaterial(materialArgs));
 
