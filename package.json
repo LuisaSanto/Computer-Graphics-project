@@ -4,7 +4,7 @@
   "description": "IST Computer Graphics course",
   "main": "index.js",
   "scripts": {
-    "images" : "rm -rf public/images && cp -r src/images public/images",
+    "images" : "mkdir -p public/images && rm -rf public/images && cp -r src/images public/images",
     "build": "npm run images && rollup -c",
     "dev": "npm run images && rollup -c -w",
     "deploy": "rm -rf site/ && npm run build && mkdir site && cp -r public/ site/public && cp index.html site/"
